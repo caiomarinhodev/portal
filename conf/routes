@@ -8,6 +8,8 @@ GET         /login               controllers.Application.login
 GET         /register            controllers.Application.register
 GET         /app                 controllers.LoginController.auth
 GET         /signout             controllers.Application.signout
+GET         /loginfb             controllers.LoginController.logarComFacebook
+GET         /loginfbresponse     controllers.LoginController.logarComFace(code: String)
 
 POST        /auth                controllers.LoginController.auth
 POST        /signup              controllers.RegisterController.cadastraUsuario

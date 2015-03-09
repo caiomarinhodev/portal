@@ -1,7 +1,9 @@
 package controllers;
 
 import models.GenericDAO;
+import models.LoginFacebook;
 import models.Usuario;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -10,6 +12,7 @@ import play.mvc.Result;
 import views.html.dashboard;
 import views.html.login;
 
+import java.io.IOException;
 import java.util.List;
 
 public class LoginController extends Controller {
@@ -19,6 +22,7 @@ public class LoginController extends Controller {
      * @return
      */
     private static GenericDAO dao = new GenericDAO();
+    private static LoginFacebook loginFacebook = new LoginFacebook();
 
     @Transactional
     public static Result login() {
@@ -55,6 +59,31 @@ public class LoginController extends Controller {
     @Transactional
     private static Result app(Usuario usuario) {
         return ok(dashboard.render("Portal do Leite", usuario));
+    }
+
+
+
+    /**
+     * Método que chama URL do facebook onde o usuário poderá autorizar a aplicação
+     * a acessar seus recursos privados.
+     * @return
+     */
+    //@RequestMapping("/loginfb")
+    public static Result logarComFacebook(){
+        return redirect(loginFacebook.getLoginRedirectURL());
+    }
+
+    /**
+     * Executado quando o Servidor de Autorização fizer o redirect.
+     * @param code
+     * @return
+     * @throws IOException
+     */
+    //@RequestMapping("/loginfbresponse")
+    public static Result logarComFace(String code) throws IOException {
+        Logger.info("CODE:"+code);
+        loginFacebook.obterUsuarioFacebook(code);
+        return ok(dashboard.render("Portal do Leite", new Usuario("","", "TESTE")));
     }
 
 }
