@@ -60,14 +60,14 @@ public class LoginFacebook {
     }
 
     public String getLoginRedirectURL() {
-//        return "https://graph.facebook.com/oauth/authorize?client_id="
-//                + client_id + "&display=page&redirect_uri=" + redirect_uri
-//                + "&scope=email,publish_actions";
+        return "https://graph.facebook.com/oauth/authorize?client_id="
+                + client_id + "&display=page&redirect_uri=" + redirect_uri
+                + "&scope=email,publish_actions";
 
-        return "http://www.facebook.com/dialog/oauth?" + "client_id="
-                + client_id + "&redirect_uri="
-                +redirect_uri
-                + "&scope=email";
+//        return "http://www.facebook.com/dialog/oauth?" + "client_id="
+//                + client_id + "&redirect_uri="
+//                +redirect_uri
+//                + "&scope=email";
     }
 
     public String getAuthURL(String authCode) {
