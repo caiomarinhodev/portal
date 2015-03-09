@@ -3,6 +3,7 @@ package controllers;
 import models.GenericDAO;
 import models.LoginFacebook;
 import models.Usuario;
+import models.UsuarioFacebook;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -82,8 +83,9 @@ public class LoginController extends Controller {
     //@RequestMapping("/loginfbresponse")
     public static Result logarComFace(String code) throws IOException {
         Logger.info("CODE:"+code);
-        loginFacebook.obterUsuarioFacebook(code);
-        return ok(dashboard.render("Portal do Leite", new Usuario("","", "TESTE")));
+        UsuarioFacebook ufb = loginFacebook.obterUsuarioFacebook(code);
+        Usuario u = new Usuario(ufb.getEmail(), ufb.getName(), ufb.getName());
+        return ok(dashboard.render("Portal do Leite", u));
     }
 
 }

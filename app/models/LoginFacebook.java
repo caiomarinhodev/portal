@@ -14,7 +14,7 @@ public class LoginFacebook {
     private static final String client_id = "784750218267820";
     private static final String redirect_uri = "https://portaldoleite.herokuapp.com/loginfbresponse";
 
-    public void obterUsuarioFacebook(String code)
+    public UsuarioFacebook obterUsuarioFacebook(String code)
             throws IOException {
 
         String retorno = readURL(new URL(this.getAuthURL(code)));
@@ -45,6 +45,7 @@ public class LoginFacebook {
 
         UsuarioFacebook usuarioFacebook = new UsuarioFacebook(resp);
         System.out.println(usuarioFacebook.toString());
+        return usuarioFacebook;
 
     }
 
