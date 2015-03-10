@@ -53,4 +53,5 @@ public class UsuarioTest {
         Portal.salvaUsuario(usuario);
         Assert.assertNotNull(Portal.recuperaUsuario("teste@edu.br"));
     }
+    
 }
