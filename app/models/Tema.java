@@ -12,10 +12,15 @@ public class Tema {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID;
+    private Long idTema;
     @Column
     private String nome;
 
+    @ManyToOne
+    @JoinColumn(name="idDisciplina")
+    private Disciplina disciplina;
+
+    @OneToMany(mappedBy = "TEMA")
     private List<Dica> dicas;
 
     public Tema(String nome){
@@ -31,11 +36,11 @@ public class Tema {
     }
 
     public Long getID() {
-        return ID;
+        return idTema;
     }
 
     public void setID(Long ID) {
-        this.ID = ID;
+        this.idTema = ID;
     }
 
     public String getNome() {

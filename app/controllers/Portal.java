@@ -14,22 +14,39 @@ public class Portal {
 
     @Transactional
     public static boolean salvaUsuario(Usuario usuario){
-        return false;
+        boolean operacao = dao.persist(usuario);
+        dao.flush();
+        return operacao;
+
     }
 
     @Transactional
     public static Usuario recuperaUsuario(String email){
-        return null;
+        List<Usuario> usuarios = dao.findByAttributeName(Usuario.class.getName(), "email", email );
+        if (usuarios.size() > 0){
+            return usuarios.get(0);
+        }else{
+            return null;
+        }
     }
 
     @Transactional
-    public static boolean adicionaDicaAUmTema(Tema tema, Dica dica){
-        return false;
+    public static boolean adicionaDica(Dica dica){
+        boolean operacao = dao.persist(dica);
+        dao.flush();
+        return operacao;
     }
 
     @Transactional
-    public static boolean removerDica(Dica dica){
-        return false;
+    public static void removerDica(Dica dica){
+        dao.removeById(Dica.class, dica.getDicaID());
+        dao.flush();
+    }
+
+    @Transactional
+    public static void atualizarDica(Dica newDica){
+        dao.merge(newDica);
+        dao.flush();
     }
 
     @Transactional

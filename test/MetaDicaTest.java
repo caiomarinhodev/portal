@@ -12,7 +12,8 @@ public class MetaDicaTest {
         Usuario autor = new Usuario();
         Disciplina disciplina = new Disciplina();
         MetaDica meta = new MetaDica(autor, disciplina);
-        Dica dica = new DicaConselho(autor);
+        Tema tema = new Tema("assuntoTeste");
+        Dica dica = new Dica(autor, "14/03/2015", tema);
         meta.addDica(dica);
         Assert.assertTrue(Portal.adicionaMetaDica(meta));
     }
@@ -22,7 +23,8 @@ public class MetaDicaTest {
         Usuario autor = new Usuario();
         Disciplina disciplina = new Disciplina();
         MetaDica meta = new MetaDica(autor, disciplina);
-        Dica dica = new DicaConselho(autor);
+        Tema tema = new Tema("assuntoTeste");
+        Dica dica = new Dica(autor, "14/03/2015", tema);
         meta.addDica(dica);
         Portal.adicionaMetaDica(meta);
 

@@ -12,37 +12,37 @@ public class DicasTest {
     @Test
     public void testDeveAdicionarUmaDicaConhecimentoAUmTema() {
         Usuario autor = new Usuario();
-        Dica dica = new DicaConhecimento(autor);
         Tema tema = new Tema("assuntoTeste");
-        dica.setNome("teste java");
-        Assert.assertTrue(Portal.adicionaDicaAUmTema(tema, dica));
+        Dica dica = new Dica(autor, "14/03/2015", tema);
+        dica.setConhecimento("teste java");
+        Assert.assertTrue(Portal.adicionaDica(dica));
     }
 
     @Test
-    public void testDeveAdicionarUmaDicaPreRequisitoAUmTema() {
+    public void testDeveAdicionarUmaDicaPreRequisito() {
         Usuario autor = new Usuario();
-        Dica dica = new DicaPreRequisito(autor);
         Tema tema = new Tema("assuntoTeste");
-        dica.setNome("teste java");
-        dica.setRazao("TestRazão");
-        Assert.assertTrue(Portal.adicionaDicaAUmTema(tema, dica));
+        Dica dica = new Dica(autor, "14/03/2015", tema);
+        dica.setPreRequisito("testando");
+        dica.setRazao("testee");
+        Assert.assertTrue(Portal.adicionaDica(dica));
     }
 
     @Test
-    public void testDeveAdicionarUmaDicaMaterialAUmTema() {
+    public void testDeveAdicionarUmaDicaMaterial() {
         Usuario autor = new Usuario();
-        Dica dica = new DicaMaterial(autor);
         Tema tema = new Tema("assuntoTeste");
-        dica.setURL("teste.java.com.br");
-        Assert.assertTrue(Portal.adicionaDicaAUmTema(tema, dica));
+        Dica dica = new Dica(autor, "14/03/2015", tema);
+        dica.setMaterial("teste.java.com.br");
+        Assert.assertTrue(Portal.adicionaDica( dica));
     }
 
     @Test
-    public void testDeveAdicionarUmaDicaConselhoAUmTema() {
+    public void testDeveAdicionarUmaDicaConselho() {
         Usuario autor = new Usuario();
-        Dica dica = new DicaConselho(autor);
         Tema tema = new Tema("assuntoTeste");
+        Dica dica = new Dica(autor, "14/03/2015", tema);
         dica.setConselho("teste bla bla bla ...");
-        Assert.assertTrue(Portal.adicionaDicaAUmTema(tema, dica));
+        Assert.assertTrue(Portal.adicionaDica( dica));
     }
 }
