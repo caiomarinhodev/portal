@@ -2,6 +2,7 @@
 import models.Usuario;
 import org.junit.Assert;
 import org.junit.Test;
+import controllers.Portal;
 
 /**
  * Created by leonardocc on 10/03/15.
