@@ -30,6 +30,11 @@ public class DicaPreRequisito extends Dica {
         this.razao = razao;
     }
 
+    @Override
+    public String getConteudo() {
+        return getNome() + " \n "+ getRazao();
+    }
+
     public String getNome() {
         return nome;
     }

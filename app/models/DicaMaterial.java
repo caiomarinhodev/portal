@@ -31,4 +31,9 @@ public class DicaMaterial extends Dica {
     @Override
     public void setRazao(String razao) {
     }
+
+    @Override
+    public String getConteudo() {
+        return getURL();
+    }
 }

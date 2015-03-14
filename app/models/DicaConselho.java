@@ -26,6 +26,11 @@ public class DicaConselho extends Dica {
     public void setRazao(String razao) {
     }
 
+    @Override
+    public String getConteudo() {
+        return getConselho();
+    }
+
     private String conselho;
 
     public String getConselho() {

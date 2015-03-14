@@ -59,7 +59,7 @@ public class LoginController extends Controller {
      */
     @Transactional
     private static Result app(Usuario usuario) {
-        return ok(dashboard.render("Portal do Leite", usuario));
+        return ok();
     }
 
 
@@ -85,7 +85,7 @@ public class LoginController extends Controller {
         Logger.info("CODE:"+code);
         UsuarioFacebook ufb = loginFacebook.obterUsuarioFacebook(code);
         Usuario u = new Usuario(ufb.getEmail(), ufb.getName(), ufb.getName());
-        return ok(dashboard.render("Portal do Leite", u));
+        return ok();
     }
 
 }

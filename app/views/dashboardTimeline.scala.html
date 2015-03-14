@@ -1,4 +1,4 @@
-@(disciplinas: List[Disciplina], usuario: Usuario)
+@(temas: List[Tema], usuario: Usuario, disciplinas: List[Disciplina], disciplina: Disciplina, tema: Tema)
 <!DOCTYPE html>
 <html>
     <head>
@@ -109,8 +109,8 @@
                     <form action="" method="get" class="sidebar-form">
                         <div class="input-group">
                             <select name="disciplina" class="form-control" >
-                                @for(d <- disciplinas){
-                                    <option value="@disciplina.getIdDisciplina">@d.getNome</option>
+                                @for(disciplina <- disciplinas){
+                                    <option value="@disciplina.getIdDisciplina">@disciplina.getNome</option>
                                 }
                             </select>
                             <span class="input-group-btn">
@@ -122,6 +122,18 @@
                         <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul id="listatemas" class="sidebar-menu">
                         <li class="header">MENU</li>
+                        <form action="" method="get">
+
+                        @for(t <- disciplina.getTemas){
+                            <li>
+                                <input type="submit" name="tema" value="@t.getID">
+                                    <i class="fa fa-compass"></i>
+                                    @t.getNome
+
+                            </li>
+                        }
+                        </form>
+
                     </ul>
                 </section>
                     <!-- /.sidebar -->
@@ -132,21 +144,55 @@
                 <!-- Right side column. Contains the navbar and content of the page -->
             <div class="content-wrapper">
                     <!-- Content Header (Page header) -->
-                <!--<section class="content-header">
+                <section class="content-header">
                     <h1>
-                        Dashboard
+                        @tema.getNome
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li class="active">Dashboard</li>
+                        <li><a href="#"><i class="fa fa-dashboard"></i>@disciplina.getNome</a></li>
+                        <li class="active">@tema.getNome</li>
                     </ol>
-                </section>-->
+                </section>
 
                     <!-- Main content -->
                 <section class="content">
 
 
-                   <!--COnteudo AQUI!!!!-->
+                    <ul class="dashboardtimeline">
+
+                            <!-- dashboardtimeline time label -->
+                        <li class="time-label">
+                            <span class="bg-red">
+                                Dicas
+                            </span>
+                        </li>
+                            <!-- /.dashboardtimeline-label -->
+                        @for(dica <- tema.getDicas) {
+                            <!-- dashboardtimeline item -->
+                            <li>
+                                    <!-- dashboardtimeline icon -->
+                                <i class="fa fa-envelope bg-blue"></i>
+                                <div class="dashboardtimeline-item">
+                                    <span class="time"><i class="fa fa-clock-o"></i> @dica.getData</span>
+
+                                    <h3 class="dashboardtimeline-header"><a href="#">@dica.getAuthor.getNome</a> ...</h3>
+
+                                    <div class="dashboardtimeline-body">
+                                        @dica.getConteudo
+                                    </div>
+
+                                    <div class='dashboardtimeline-footer'>
+                                        <a class="btn btn-primary btn-xs">...</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- END dashboardtimeline item -->
+                        }
+                            ...
+
+                    </ul>
+
+
 
                 </section><!-- /.content -->
             </div><!-- /.content-wrapper -->

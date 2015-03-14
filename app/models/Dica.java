@@ -40,6 +40,8 @@ public abstract class Dica {
 
     public abstract void setRazao(String razao);
 
+    public abstract String getConteudo();
+
     public int getVotos() {
         return votos;
     }

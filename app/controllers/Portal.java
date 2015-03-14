@@ -3,10 +3,14 @@ package controllers;
 import models.*;
 import play.db.jpa.Transactional;
 
+import java.util.List;
+
 /**
  * Created by X on 14/03/2015.
  */
 public class Portal {
+
+    private static GenericDAO dao = new GenericDAO();
 
     @Transactional
     public static boolean salvaUsuario(Usuario usuario){
@@ -46,6 +50,11 @@ public class Portal {
     @Transactional
     public static boolean adicionaVoto(Voto voto){
         return false;
+    }
+
+    @Transactional
+    public static List<Disciplina> getDisciplinas(){
+        return dao.findAllByClassName(Disciplina.class.getName());
     }
 
 }

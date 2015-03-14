@@ -1,11 +1,20 @@
 package models;
 
+import javax.persistence.*;
+
 /**
  * Created by X on 14/03/2015.
  */
+@Entity
+@Table(name = "DICACONHECIMENTO")
 public class DicaConhecimento extends Dica {
-
+    @Column
     private String nome;
+
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idDicaConhecimento;
 
     public DicaConhecimento(Usuario autor) {
         super(autor);
@@ -26,6 +35,11 @@ public class DicaConhecimento extends Dica {
 
     @Override
     public void setRazao(String razao) {
+    }
+
+    @Override
+    public String getConteudo() {
+        return getNome();
     }
 
     public String getNome() {
