@@ -10,10 +10,14 @@ public abstract class Dica {
     private Usuario autor;
     private Date data;
     private int votos;
+    private int denuncias;
+    private boolean aberto;
 
     public Dica (Usuario autor){
         this.autor = autor;
         votos = 0;
+        denuncias = 0;
+        aberto = true;
     }
 
     public Usuario getAutor() {
@@ -50,6 +54,10 @@ public abstract class Dica {
         votos++;
     }
 
+    public void incrementaDenuncias(){
+        denuncias++;
+    }
+
     public void decrementaVotos(){
         votos--;
     }
@@ -58,4 +66,11 @@ public abstract class Dica {
         return 0.0f;
     }
 
+    public int getDenuncias() {
+        return denuncias;
+    }
+
+    public boolean isAberto() {
+        return aberto;
+    }
 }

@@ -28,6 +28,11 @@ public class Portal {
     }
 
     @Transactional
+    public static boolean removerDica(Dica dica){
+        return false;
+    }
+
+    @Transactional
     public static boolean adicionaAvaliacao(Avaliacao avaliacao){
         return false;
     }
@@ -53,8 +58,26 @@ public class Portal {
     }
 
     @Transactional
-    public static List<Disciplina> getDisciplinas(){
-        return dao.findAllByClassName(Disciplina.class.getName());
+    public static boolean adicionaMetaDica(MetaDica dica){
+        return false;
+    }
+
+    @Transactional
+    public static List<MetaDica> recuperaMetaDicasPorDisciplina(Disciplina disciplina){
+        return null;
+    }
+
+    @Transactional
+    public static void denunciaDica(Dica dica){
+    }
+
+    @Transactional
+    public static List<Dica> recuperaDicasPorTema() {
+        return null;
+    }
+
+    @Transactional
+    public static void fechaDica(Dica dica){
     }
 
 }
