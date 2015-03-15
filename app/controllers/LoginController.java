@@ -83,11 +83,15 @@ public class LoginController extends Controller {
     public static Result logarComFace(String code) throws IOException {
         Logger.info("CODE:" + code);
         UsuarioFacebook ufb = loginFacebook.obterUsuarioFacebook(code);
-        Usuario u = new Usuario(ufb.getEmail(),ufb.getName(), ufb.getName());
-        if (Portal.salvaUsuario(u)) {
+        Usuario us = Portal.recuperaUsuario(ufb.getEmail());
+        if(us==null){
+            us = new Usuario(ufb.getEmail(),"12345", ufb.getName());
+            Portal.salvaUsuario(us);
+        }
+        if (us!=null) {
             session().clear();
-            session("email", u.getEmail());
-            return ok(dashboard.render(Portal.getListaDisciplinas(),u));
+            session("email", us.getEmail());
+            return ok(dashboard.render(Portal.getListaDisciplinas(),us));
         } else {
             return ok(login.render(""));
         }
