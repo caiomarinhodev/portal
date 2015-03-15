@@ -29,7 +29,7 @@
         <div class="wrapper">
 
             <header class="main-header">
-                <a href="#" class="logo"><b>Portal</b></a>
+                <a href="#" class="logo"><b><i class="fa fa-rocket">&nbsp&nbsp</i>Portal</b></a>
                     <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top" role="navigation">
                         <!-- Sidebar toggle button-->
@@ -122,16 +122,12 @@
                         <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul id="listatemas" class="sidebar-menu">
                         <li class="header">MENU</li>
-                        <form action="/app/disciplina/tema" method="get">
-                            @for(tema <- disciplina.getTemas){
-                                <li>
-                                    <input type="hidden" name="tema" value="@tema.getID">
-                                    <i class="fa fa-compass"></i>
-                                    @tema.getNome
 
-                                </li>
+                            @for(t <- disciplina.getTemas){
+                               <li><a href="/app/disciplina/@t.getID">
+                                    <i class="fa fa-rocket"></i>@t.getNome</a></li>
                             }
-                        </form>
+
 
                     </ul>
                 </section>

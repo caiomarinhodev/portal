@@ -22,11 +22,10 @@ public class AppController extends Controller {
     private static Tema t;
 
     /**
-     * This method render register page
+     * Metodo static faz o controle de escolha do Usuario para a Disciplina Selecionada no Selector da View.
      *
-     * @return
+     * @return Um Dashboard correspondente.
      */
-    //private static GenericDAO dao = new GenericDAO();
     @Transactional
     public static Result escolhaDisciplina() {
         DynamicForm requestData = Form.form().bindFromRequest();
@@ -36,22 +35,30 @@ public class AppController extends Controller {
         u = Portal.recuperaUsuario(email);
         List<Disciplina> li = Portal.getListaDisciplinas();
         d = Portal.getDisciplinaNoBD("nome", select);
-        if (select!=null && select.equals("SI1") && u != null) {
+        if (select != null && select.equals("SI1") && u != null) {
             return ok(dashboardMenu.render(d.getTemas(), u, li, d));
         }
         return ok(dashboard.render(li, u));
     }
 
-    public static Result escolhaTema() {
-        DynamicForm requestData = Form.form().bindFromRequest();
-        Long id = Long.getLong(requestData.get("tema"));
+    /**
+     * Metodo faz o controle de escolha do usuário para o Tema selecionado nos itens mostrados.
+     *
+     * @param id id do tema escolhido.
+     * @return Um dashboard com timeline.
+     */
+    @Transactional
+    public static Result escolhaTema(Long id) {
+        //DynamicForm requestData = Form.form().bindFromRequest();
+        t = null;
+        //Long i = Long.getLong(id));
         for (Tema tema : d.getTemas()) {
             if (tema.getID() == id) {
                 t = tema;
             }
         }
         if (t != null) {
-            return ok(dashboardTimeline.render(d.getTemas(),u,Portal.getListaDisciplinas(),d,t,t.getDicas()));
+            return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d, t, Portal.recuperaDicasPorTema(id)));
         } else {
             return ok(dashboardMenu.render(d.getTemas(), u, Portal.getListaDisciplinas(), d));
         }

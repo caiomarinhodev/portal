@@ -8,7 +8,7 @@ GET         /login                      controllers.Application.login
 GET         /register                   controllers.Application.register
 GET         /app                        controllers.LoginController.auth
 GET         /app/disciplina             controllers.AppController.escolhaDisciplina
-GET         /app/disciplina/tema        controllers.AppController.escolhaTema
+GET         /app/disciplina/:id         controllers.AppController.escolhaTema(id: Long)
 
 GET         /signout                    controllers.Application.signout
 GET         /loginfb                    controllers.LoginController.logarComFacebook

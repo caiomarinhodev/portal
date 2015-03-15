@@ -29,7 +29,7 @@
         <div class="wrapper">
 
             <header class="main-header">
-                <a href="#" class="logo"><b>Portal</b></a>
+                <a href="#" class="logo"><b><i class="fa fa-rocket">&nbsp&nbsp</i>Portal</b></a>
                     <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top" role="navigation">
                         <!-- Sidebar toggle button-->
@@ -122,17 +122,12 @@
                         <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul id="listatemas" class="sidebar-menu">
                         <li class="header">MENU</li>
-                        <form action="/app/disciplina/tema" method="get">
 
                         @for(t <- disciplina.getTemas){
-                            <li>
-                                <input type="submit" name="tema" value="@t.getID">
-                                    <i class="fa fa-compass"></i>
-                                    @t.getNome
-
-                            </li>
+                            <li><a href="/app/disciplina/@t.getID">
+                                <i class="fa fa-rocket"></i>@t.getNome</a></li>
                         }
-                        </form>
+
 
                     </ul>
                 </section>
@@ -156,37 +151,31 @@
 
                     <!-- Main content -->
                 <section class="content">
-
-
-                    <ul class="dashboardtimeline">
-
-                            <!-- dashboardtimeline time label -->
+                    <ul class="timeline">
+                            <!-- timeline time label -->
                         <li class="time-label">
                             <span class="bg-red">
                                 Dicas
                             </span>
                         </li>
-                            <!-- /.dashboardtimeline-label -->
-                        @for(dic <- dicas) {
-
+                            <!-- /.timeline-label -->
+                            <!-- timeline item -->
+                        @for(dica <- dicas){
                             <li>
                                 <i class="fa fa-envelope bg-blue"></i>
-                                <div class="dashboardtimeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> </span>
-                                    <h3 class="dashboardtimeline-header"><a href="#">@dic.getAutorID</a></h3>
-
-                                    <div class="dashboardtimeline-body">
-                                        Tema ID: @dic.getTemaID
+                                <div class="timeline-item">
+                                    <span class="time"><i class="fa fa-clock-o"></i> @dica.getData.toLocaleString</span>
+                                    <h3 class="timeline-header"><a href="">@dica.getAutorID</a></h3>
+                                    <div class="timeline-body">
+                                    @dica.getConhecimento
                                     </div>
-
-                                    <div class='dashboardtimeline-footer'>
-                                        <a href="" class="btn btn-primary btn-xs">...</a>
+                                    <div class='timeline-footer'>
+                                        <a class="btn btn-primary btn-xs">Read more</a>
+                                        <a class="btn btn-danger btn-xs">Delete</a>
                                     </div>
                                 </div>
                             </li>
-                            <!-- END dashboardtimeline item -->
                         }
-                            ...
 
                     </ul>
 
