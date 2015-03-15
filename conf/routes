@@ -3,18 +3,20 @@
 # ~~~~
 
 # Home page
-GET         /                       controllers.Application.index
-GET         /login                  controllers.Application.login
-GET         /register               controllers.Application.register
-GET         /app                    controllers.LoginController.auth
-GET         /signout                controllers.Application.signout
-GET         /loginfb                controllers.LoginController.logarComFacebook
-GET         /loginfbresponse        controllers.LoginController.logarComFace(code: String)
-GET         /app/tips               controllers.AppController.renderTimeline
+GET         /                           controllers.Application.index
+GET         /login                      controllers.Application.login
+GET         /register                   controllers.Application.register
+GET         /app                        controllers.LoginController.auth
+GET         /app/disciplina             controllers.AppController.escolhaDisciplina
+GET         /app/disciplina/tema        controllers.AppController.escolhaTema
 
-POST        /auth                   controllers.LoginController.auth
-POST        /signup                 controllers.RegisterController.cadastraUsuario
+GET         /signout                    controllers.Application.signout
+GET         /loginfb                    controllers.LoginController.logarComFacebook
+GET         /loginfbresponse            controllers.LoginController.logarComFace(code: String)
+
+POST        /auth                       controllers.LoginController.auth
+POST        /signup                     controllers.RegisterController.cadastraUsuario
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file           controllers.Assets.at(path="/public/assets/", file)
+GET         /assets/*file               controllers.Assets.at(path="/public/assets/", file)
 

@@ -105,12 +105,12 @@
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
-                        search form
-                    <form action="" method="get" class="sidebar-form">
+
+                    <form action="/app/disciplina" method="get" class="sidebar-form">
                         <div class="input-group">
                             <select name="disciplina" class="form-control" >
                                 @for(d <- disciplinas){
-                                    <option value="@disciplina.getIdDisciplina">@d.getNome</option>
+                                    <option>@d.getNome</option>
                                 }
                             </select>
                             <span class="input-group-btn">

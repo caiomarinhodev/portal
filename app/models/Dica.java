@@ -54,6 +54,13 @@ public class Dica {
     @Column
     private boolean aberto;
 
+    @ManyToOne
+    @JoinColumn(name="idTema")
+    private Tema tema;
+
+    @OneToOne(mappedBy = "DICA")
+    private Usuario autor;
+
 
     public Dica(Usuario autor, String data, Tema tema) {
         this.autorID = autor.getId();
@@ -64,6 +71,8 @@ public class Dica {
         this.conselho = "";
         this.data = DateTime.parse(data);
         temaID = tema.getID();
+        this.tema = tema;
+        this.autor = autor;
 
         votos = 0;
         votosPositivos= 0;
@@ -151,5 +160,21 @@ public class Dica {
             votosPositivos++;
         }
         votos++;
+    }
+
+    public Tema getTema() {
+        return tema;
+    }
+
+    public void setTema(Tema tema) {
+        this.tema = tema;
+    }
+
+    public Usuario getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Usuario autor) {
+        this.autor = autor;
     }
 }

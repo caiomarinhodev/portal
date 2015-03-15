@@ -105,12 +105,12 @@
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
-                        search form
-                    <form action="" method="get" class="sidebar-form">
+
+                    <form action="/app/disciplina" method="get" class="sidebar-form">
                         <div class="input-group">
                             <select name="disciplina" class="form-control" >
                                 @for(disciplina <- disciplinas){
-                                    <option value="@disciplina.getIdDisciplina" >@disciplina.getNome</option>
+                                    <option>@disciplina.getNome</option>
                                 }
                             </select>
                             <span class="input-group-btn">
@@ -122,7 +122,7 @@
                         <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul id="listatemas" class="sidebar-menu">
                         <li class="header">MENU</li>
-                        <form action="" method="get">
+                        <form action="/app/disciplina/tema" method="get">
                             @for(tema <- disciplina.getTemas){
                                 <li>
                                     <input type="submit" name="tema" value="@tema.getID">

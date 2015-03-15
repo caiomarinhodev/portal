@@ -105,12 +105,12 @@
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
-                        search form
-                    <form action="" method="get" class="sidebar-form">
+
+                    <form action="/app/disciplina" method="get" class="sidebar-form">
                         <div class="input-group">
                             <select name="disciplina" class="form-control" >
                                 @for(disciplina <- disciplinas){
-                                    <option value="@disciplina.getIdDisciplina">@disciplina.getNome</option>
+                                    <option>@disciplina.getNome</option>
                                 }
                             </select>
                             <span class="input-group-btn">
@@ -122,7 +122,7 @@
                         <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul id="listatemas" class="sidebar-menu">
                         <li class="header">MENU</li>
-                        <form action="" method="get">
+                        <form action="/app/disciplina/tema" method="get">
 
                         @for(t <- disciplina.getTemas){
                             <li>
@@ -167,22 +167,20 @@
                             </span>
                         </li>
                             <!-- /.dashboardtimeline-label -->
-                        @for(dica <- tema.getDicas) {
-                            <!-- dashboardtimeline item -->
+                        @for(di <- tema.getDicas) {
+
                             <li>
-                                    <!-- dashboardtimeline icon -->
                                 <i class="fa fa-envelope bg-blue"></i>
                                 <div class="dashboardtimeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> @dica.getData</span>
-
-                                    <h3 class="dashboardtimeline-header"><a href="#">@dica.getAuthor.getNome</a> ...</h3>
+                                    <span class="time"><i class="fa fa-clock-o"></i> </span>
+                                    <h3 class="dashboardtimeline-header"><a href="#">@di.getAutor.getNome</a></h3>
 
                                     <div class="dashboardtimeline-body">
-                                        @dica.getConteudo
+                                        Tema ID: @di.getTemaID
                                     </div>
 
                                     <div class='dashboardtimeline-footer'>
-                                        <a class="btn btn-primary btn-xs">...</a>
+                                        <a href="" class="btn btn-primary btn-xs">...</a>
                                     </div>
                                 </div>
                             </li>

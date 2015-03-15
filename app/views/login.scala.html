@@ -24,10 +24,15 @@
     <body class="login-page">
         <div class="login-box">
             <div class="login-logo">
-                <a href="/"><b>@title</b></a>
+                <a href="/"><b>Portal do Leite</b></a>
             </div><!-- /.login-logo -->
             <div class="login-box-body">
-                <p class="login-box-msg">Faça login para iniciar sua sessão</p>
+                @if(title.equals("")){
+                    <p class="login-box-msg ">Faça Login como membro</p>
+                }else{
+                    <p class="login-box-msg ">@title</p>
+                }
+
                 <form action="/auth" method="post">
                     <div class="form-group has-feedback">
                         <input name="email" type="text" class="form-control" placeholder="Email"/>
