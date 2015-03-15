@@ -79,6 +79,7 @@ public class LoginController extends Controller {
      * @throws IOException
      */
     //@RequestMapping("/loginfbresponse")
+    @Transactional
     public static Result logarComFace(String code) throws IOException {
         Logger.info("CODE:" + code);
         UsuarioFacebook ufb = loginFacebook.obterUsuarioFacebook(code);
