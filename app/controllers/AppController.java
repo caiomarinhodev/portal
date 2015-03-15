@@ -36,7 +36,7 @@ public class AppController extends Controller {
         u = Portal.recuperaUsuario(email);
         List<Disciplina> li = Portal.getListaDisciplinas();
         d = Portal.getDisciplinaNoBD("nome", select);
-        if (select.equals("SI1") && u != null) {
+        if (select!=null && select.equals("SI1") && u != null) {
             return ok(dashboardMenu.render(d.getTemas(), u, li, d));
         }
         return ok(dashboard.render(li, u));
@@ -51,7 +51,7 @@ public class AppController extends Controller {
             }
         }
         if (t != null) {
-            return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d, t));
+            return ok(dashboardTimeline.render(d.getTemas(),u,Portal.getListaDisciplinas(),d,t,t.getDicas()));
         } else {
             return ok(dashboardMenu.render(d.getTemas(), u, Portal.getListaDisciplinas(), d));
         }

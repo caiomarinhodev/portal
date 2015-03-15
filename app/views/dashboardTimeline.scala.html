@@ -1,4 +1,4 @@
-@(temas: List[Tema], usuario: Usuario, disciplinas: List[Disciplina], disciplina: Disciplina, tema: Tema)
+@(temas: List[Tema], usuario: Usuario, disciplinas: List[Disciplina], disciplina: Disciplina, tema: Tema, dicas: List[Dica])
 <!DOCTYPE html>
 <html>
     <head>
@@ -167,16 +167,16 @@
                             </span>
                         </li>
                             <!-- /.dashboardtimeline-label -->
-                        @for(di <- tema.getDicas) {
+                        @for(dic <- dicas) {
 
                             <li>
                                 <i class="fa fa-envelope bg-blue"></i>
                                 <div class="dashboardtimeline-item">
                                     <span class="time"><i class="fa fa-clock-o"></i> </span>
-                                    <h3 class="dashboardtimeline-header"><a href="#">@di.getAutor.getNome</a></h3>
+                                    <h3 class="dashboardtimeline-header"><a href="#">@dic.getAutorID</a></h3>
 
                                     <div class="dashboardtimeline-body">
-                                        Tema ID: @di.getTemaID
+                                        Tema ID: @dic.getTemaID
                                     </div>
 
                                     <div class='dashboardtimeline-footer'>

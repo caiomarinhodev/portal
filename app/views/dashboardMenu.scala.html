@@ -114,7 +114,7 @@
                                 }
                             </select>
                             <span class="input-group-btn">
-                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa  fa-chevron-right"></i></button>
+                                <button type='submit' class="btn btn-flat"><i class="fa  fa-chevron-right"></i></button>
                             </span>
                         </div>
                     </form>
@@ -125,7 +125,7 @@
                         <form action="/app/disciplina/tema" method="get">
                             @for(tema <- disciplina.getTemas){
                                 <li>
-                                    <input type="submit" name="tema" value="@tema.getID">
+                                    <input type="hidden" name="tema" value="@tema.getID">
                                     <i class="fa fa-compass"></i>
                                     @tema.getNome
 

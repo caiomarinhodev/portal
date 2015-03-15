@@ -3,6 +3,7 @@ package models;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by X on 14/03/2015.
@@ -37,7 +38,7 @@ public class Dica {
     private String conselho;
 
     @Column
-    private DateTime data;
+    private Date data;
 
     @Column
     private long temaID;
@@ -54,25 +55,19 @@ public class Dica {
     @Column
     private boolean aberto;
 
-    @ManyToOne
-    @JoinColumn(name="idTema")
-    private Tema tema;
+    public Dica(){
 
-    @OneToOne(mappedBy = "DICA")
-    private Usuario autor;
+    }
 
-
-    public Dica(Usuario autor, String data, Tema tema) {
+    public Dica(Usuario autor, Date data, Tema tema) {
         this.autorID = autor.getId();
         this.conhecimento = "";
         this.preRequisito = "";
         this.razao = "";
         this.material = "";
         this.conselho = "";
-        this.data = DateTime.parse(data);
+        this.data = data;
         temaID = tema.getID();
-        this.tema = tema;
-        this.autor = autor;
 
         votos = 0;
         votosPositivos= 0;
@@ -128,7 +123,7 @@ public class Dica {
         return conselho;
     }
 
-    public DateTime getData() {
+    public Date getData() {
         return data;
     }
 
@@ -162,19 +157,4 @@ public class Dica {
         votos++;
     }
 
-    public Tema getTema() {
-        return tema;
-    }
-
-    public void setTema(Tema tema) {
-        this.tema = tema;
-    }
-
-    public Usuario getAutor() {
-        return autor;
-    }
-
-    public void setAutor(Usuario autor) {
-        this.autor = autor;
-    }
 }

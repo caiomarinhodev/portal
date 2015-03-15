@@ -20,8 +20,12 @@ public class Tema {
     @JoinColumn(name="idDisciplina")
     private Disciplina disciplina;
 
-    @OneToMany(mappedBy = "TEMA")
+    @OneToMany
     private List<Dica> dicas;
+
+    public Tema(){
+
+    }
 
     public Tema(String nome){
         this.nome = nome;

@@ -16,7 +16,7 @@ public class Disciplina {
     @Column
     private String nome;
 
-    @OneToMany(mappedBy = "DISCIPLINA")
+    @OneToMany
     private List<Tema> temas;
 
     public Disciplina(String nome, List<Tema> listaDeTemas) {
