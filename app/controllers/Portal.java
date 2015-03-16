@@ -3,6 +3,9 @@ package controllers;
 import models.*;
 import play.db.jpa.Transactional;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -21,11 +24,14 @@ public class Portal {
      * @return true se salvar.
      */
     @Transactional
-    public static boolean salvaUsuario(Usuario usuario) {
-        boolean operacao = dao.persist(usuario);
-        dao.flush();
-        return operacao;
-
+    public static boolean salvaUsuario(Usuario usuario) throws NoSuchAlgorithmException {
+        if (validaEmail(usuario.getEmail()) && validaSenha(usuario.getSenha()) && validaNome(usuario.getNome())) {
+            usuario.setSenha(encryptaSenha(usuario.getSenha()));
+            boolean operacao = dao.persist(usuario);
+            dao.flush();
+            return operacao;
+        }
+        return false;
     }
 
     /**
@@ -234,4 +240,56 @@ public class Portal {
         }
     }
 
+    /**
+     * Método que gera o código MD5 referente a senha.
+     *
+     * @param senha String para que será codificada.
+     * @return MD5 referente a string de entrada.
+     */
+    public static String encryptaSenha(String senha) throws NoSuchAlgorithmException {
+
+        MessageDigest msg = MessageDigest.getInstance("MD5");
+        msg.update(senha.getBytes(), 0, senha.length());
+        return new BigInteger(1,msg.digest()).toString(16);
+    }
+
+    /**
+     * Método que verifica se não existe email já cadastrado no banco de dados.
+     *
+     * @param email Chave a ser procurada.
+     * @return True se não existir, false cc.
+     */
+    private static boolean validaEmail(String email) {
+
+        if (email != null && recuperaUsuario(email) == null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Método que verifica se a senha não é nula nem vazia.
+     *
+     * @param senha Chave a ser verificada.
+     * @return True se não for nula nem vazia, false cc.
+     */
+    private static boolean validaSenha(String senha) {
+        if (senha != null && !senha.equals("")) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Método que verifica se a nome não é nulo nem vazio.
+     *
+     * @param nome Chave a ser verificada.
+     * @return True se não for nula nem vazia, false cc.
+     */
+    private static boolean validaNome(String nome) {
+        if (nome != null && !nome.equals("")) {
+            return true;
+        }
+        return false;
+    }
 }

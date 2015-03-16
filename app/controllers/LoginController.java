@@ -13,6 +13,7 @@ import views.html.dashboard;
 import views.html.login;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 public class LoginController extends Controller {
 
@@ -35,16 +36,21 @@ public class LoginController extends Controller {
      * @return
      */
     @Transactional
-    public static Result auth() {
+    public static Result auth() throws NoSuchAlgorithmException {
         DynamicForm requestData = Form.form().bindFromRequest();
         final String email, senha;
         email = requestData.get("email");
         senha = requestData.get("senha");
+        String md5 = Portal.encryptaSenha(senha);
         Usuario u = Portal.recuperaUsuario(email);
-        if (u != null) {
-            session().clear();
-            session("email", email);
-            return app(u);
+        if (u != null ) {
+            if (md5.equals(u.getSenha())){
+                session().clear();
+                session("email", email);
+                return app(u);
+            } else {
+                return ok(login.render("Senha inválida"));
+            }
         }
         return ok(login.render("Usuario nao existe"));
     }
@@ -80,7 +86,7 @@ public class LoginController extends Controller {
      */
     //@RequestMapping("/loginfbresponse")
     @Transactional
-    public static Result logarComFace(String code) throws IOException {
+    public static Result logarComFace(String code) throws IOException, NoSuchAlgorithmException {
         Logger.info("CODE:" + code);
         UsuarioFacebook ufb = loginFacebook.obterUsuarioFacebook(code);
         Usuario us = Portal.recuperaUsuario(ufb.getEmail());
