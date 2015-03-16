@@ -1,24 +1,43 @@
 package models;
 
+import javax.persistence.*;
+
 /**
  * Created by X on 14/03/2015.
  */
+@Entity
+@Table(name = "VOTO")
 public class Voto {
-    private Usuario usuario;
-    private Dica dica;
+
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long votoId;
+
+    @Column
+    private String usuario;
+
+    @Column
+    private long dica;
+
+    @Column
     private int voto;
 
     public Voto (Usuario usuario, Dica dica, int voto){
-        this.usuario = usuario;
-        this.dica = dica;
+        this.usuario = usuario.getEmail();
+        this.dica = dica.getDicaID();
         this.voto = voto;
     }
 
-    public Usuario getUsuario() {
+    public String getUsuario() {
         return usuario;
     }
 
-    public Dica getDica() {
+    public long getVotoId() {
+        return votoId;
+    }
+
+    public long getDica() {
         return dica;
     }
 

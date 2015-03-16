@@ -1,4 +1,6 @@
+import controllers.Portal;
 import models.*;
+import org.joda.time.DateTime;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -51,26 +53,25 @@ public class Global extends GlobalSettings {
                     li.add(t12);
                     Disciplina disciplina = new Disciplina("SI1",li);
 
-                    dao.persist(u);
-
-                    dao.persist(t1);
-                    dao.persist(t2);
-                    dao.persist(t3);
-                    dao.persist(t4);
-                    dao.persist(t5);
-                    dao.persist(t6);
-                    dao.persist(t7);
-                    dao.persist(t8);
-                    dao.persist(t9);
-                    dao.persist(t10);
-                    dao.persist(t11);
-                    dao.persist(t12);
+                    Portal.salvaUsuario(u);
+                    Portal.adicionaTema(t1);
+                    Portal.adicionaTema(t2);
+                    Portal.adicionaTema(t3);
+                    Portal.adicionaTema(t4);
+                    Portal.adicionaTema(t5);
+                    Portal.adicionaTema(t6);
+                    Portal.adicionaTema(t7);
+                    Portal.adicionaTema(t8);
+                    Portal.adicionaTema(t9);
+                    Portal.adicionaTema(t10);
+                    Portal.adicionaTema(t11);
+                    Portal.adicionaTema(t12);
 
                     dao.persist(disciplina);
 
-                    Dica dica = new Dica(u,new Date(),t1);
+                    Dica dica = new Dica(u, new Date(), t1);
                     dica.setConhecimento("Essa parte é muito importante. Estude muito!");
-                    dao.persist(dica);
+                    Portal.adicionaDica(dica);
                     Logger.info("Inserindo dados no BD.");
                     dao.flush();
                 }

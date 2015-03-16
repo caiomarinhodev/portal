@@ -24,7 +24,6 @@ public class Tema {
     private List<Dica> dicas;
 
     public Tema(){
-
     }
 
     public Tema(String nome){

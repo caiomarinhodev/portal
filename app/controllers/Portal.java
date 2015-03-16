@@ -51,30 +51,18 @@ public class Portal {
     }
 
     /**
-     * Metodo pesquisa e retorna um Usuario.
-     *
-     * @param id o id correspondente ao Usuario salvo no BD.
-     * @return um objeto do tipo Usuario.
-     */
-    @Transactional
-    public static Usuario pesquisaUsuario(Long id) {
-        List<Usuario> li = dao.findByAttributeName(Usuario.class.getName(), "id", String.valueOf(id));
-        if (li.size() > 0) {
-            return li.get(0);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * @param dica
-     * @return
+     * Método que adiciona uma nova dica no BD.
+     * @param dica dica a ser inserida
+     * @return True se a dica foi adicionada, false cc.
      */
     @Transactional
     public static boolean adicionaDica(Dica dica) {
-        boolean operacao = dao.persist(dica);
-        dao.flush();
-        return operacao;
+        if (validaDica(dica)){
+            boolean operacao = dao.persist(dica);
+            dao.flush();
+            return operacao;
+        }
+        return false;
     }
 
     /**
@@ -93,6 +81,16 @@ public class Portal {
     public static void atualizarDica(Dica newDica) {
         dao.merge(newDica);
         dao.flush();
+    }
+
+    /**
+     * Recupera uma dica cadastrada pelo ID.
+     * @param id parametro de busca.
+     * @return Dica, caso exista.
+     */
+    @Transactional
+    public static Dica recuperaDica(long id) {
+        return dao.findByEntityId(Dica.class, id);
     }
 
     /**
@@ -131,11 +129,42 @@ public class Portal {
     }
 
     /**
-     * @param voto
-     * @return
+     * Adiciona voto ao BD
+     * @param voto voto a ser adicionado
+     * @return True se o voto for adicionado ou atualizado com sucesso.
      */
     @Transactional
     public static boolean adicionaVoto(Voto voto) {
+        boolean operacao = false;
+        if (validaVoto(voto)){
+            if (recuperaVotoPorUsuarioETema(voto.getUsuario(), voto.getDica()) == null ){
+                operacao = dao.persist(voto);
+                return operacao;
+            } else {
+                dao.merge(voto);
+                operacao = true;
+            }
+            dao.flush();
+        }
+        return operacao;
+    }
+
+    public static Voto recuperaVotoPorUsuarioETema(String email, long dicaID){
+        List<Voto> votos1 = dao.findByAttributeName(Voto.class.getName(), "usuario", email);
+        List<Voto> votos2 = dao.findByAttributeName(Voto.class.getName(), "dica", String.valueOf(dicaID));
+        votos1.retainAll(votos2);
+        if (votos1.size() > 0) {
+            return votos1.get(0);
+        } else {
+            return null;
+        }
+
+    }
+
+    private static boolean validaVoto(Voto voto) {
+        if (recuperaUsuario(voto.getUsuario())!= null && recuperaDica(voto.getDica()) != null){
+            return true;
+        }
         return false;
     }
 
@@ -227,16 +256,29 @@ public class Portal {
     /**
      * Metodo pesquisa e retorna um Tema no BD.
      *
-     * @param id ID do tema a ser pesquisado.
+     * @param nome ID do tema a ser pesquisado.
      * @return um objeto di tipo Tema.
      */
     @Transactional
-    public static Tema pesquisaTema(Long id) {
-        List<Tema> ld = dao.findByAttributeName(Tema.class.getName(), "idTema", String.valueOf(id));
+    public static Tema recuperaTemaPeloNome(String nome) {
+        List<Tema> ld = dao.findByAttributeName(Tema.class.getName(), "nome", nome);
         if (ld.size() > 0) {
             return ld.get(0);
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Metodo adiciona um Tema no BD.
+     *
+     * @param tema Tema a ser inserido.
+     */
+    @Transactional
+    public static void adicionaTema(Tema tema) {
+        if (validaNome(tema.getNome())) {
+            dao.persist(tema);
+            dao.flush();
         }
     }
 
@@ -250,7 +292,7 @@ public class Portal {
 
         MessageDigest msg = MessageDigest.getInstance("MD5");
         msg.update(senha.getBytes(), 0, senha.length());
-        return new BigInteger(1,msg.digest()).toString(16);
+        return new BigInteger(1, msg.digest()).toString(16);
     }
 
     /**
@@ -288,6 +330,36 @@ public class Portal {
      */
     private static boolean validaNome(String nome) {
         if (nome != null && !nome.equals("")) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Método que verifica se uma dica é válida.
+     *
+     * @param dica dica a ser verificada.
+     * @return True se for válida, false cc.
+     */
+    private static boolean validaDica(Dica dica) {
+        if (!dica.getConhecimento().equals("") || !dica.getPreRequisito().equals("") ||
+                !dica.getRazao().equals("") || !dica.getConselho().equals("") ||
+                (!dica.getMaterial().equals("") && validaURL(dica.getMaterial()))) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Método que valida uma URL de acordo com um padrão pré definido.
+     *
+     * @param material URL a ser validada.
+     * @return True se for válida, false cc.
+     */
+    private static boolean validaURL(String material) {
+
+        if (material.matches("http://(.*).com") || material.matches("htt://(.*).com.br") ||
+                material.matches("http://(.*).edu") || material.matches("http://(.*).edu.br")) {
             return true;
         }
         return false;
