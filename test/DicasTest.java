@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by X on 14/03/2015.
  */
-public class DicasTest {
+public class DicasTest extends AbstractTest {
 
 
     @Test
@@ -36,7 +36,7 @@ public class DicasTest {
         Usuario autor = Portal.recuperaUsuario("teste@teste.com");
         Tema tema = Portal.recuperaTemaPeloNome("Projeto");
         Dica dica = new Dica(autor, new Date(), tema);
-        dica.setMaterial("teste.java.com.br");
+        dica.setMaterial("http://teste.java.com.br");
         Assert.assertTrue(Portal.adicionaDica( dica));
     }
 
@@ -46,7 +46,7 @@ public class DicasTest {
         Tema tema = Portal.recuperaTemaPeloNome("Projeto");
         Dica dica = new Dica(autor, new Date(), tema);
         dica.setMaterial("teste.java.br");
-        Assert.assertTrue(Portal.adicionaDica( dica));
+        Assert.assertFalse(Portal.adicionaDica( dica));
     }
 
     @Test

@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by X on 14/03/2015.
  */
-public class VotoTest {
+public class VotoTest extends AbstractTest{
 
     @Test
     public void testVotarEmUmaDica() {

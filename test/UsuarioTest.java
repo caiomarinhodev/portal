@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Created by leonardocc on 10/03/15.
  */
-public class UsuarioTest {
+public class UsuarioTest extends AbstractTest {
 
     @Test
     public void testDeveCriarUsuario() throws NoSuchAlgorithmException {

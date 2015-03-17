@@ -357,9 +357,13 @@ public class Portal {
      * @return True se for válida, false cc.
      */
     private static boolean validaURL(String material) {
+        String regra1 = "(http://)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*(.com)";
+        String regra2 = "(http://)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*(.com.br)";
+        String regra3 = "(http://)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*(.edu)";
+        String regra4 = "(http://)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*(.edu.br)";
 
-        if (material.matches("http://(.*).com") || material.matches("htt://(.*).com.br") ||
-                material.matches("http://(.*).edu") || material.matches("http://(.*).edu.br")) {
+        if (material.matches(regra1) || material.matches(regra2) ||
+                material.matches(regra3) || material.matches(regra4)) {
             return true;
         }
         return false;
