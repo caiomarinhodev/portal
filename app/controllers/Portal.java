@@ -34,6 +34,12 @@ public class Portal {
         return false;
     }
 
+    @Transactional
+    public static Usuario recuperaUsuarioPorID(Long ID){
+        Usuario u = dao.findByEntityId(Usuario.class, ID);
+        return u;
+    }
+
     /**
      * Metodo retorna um Usuario do BD.
      *

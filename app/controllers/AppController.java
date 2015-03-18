@@ -64,4 +64,11 @@ public class AppController extends Controller {
         }
     }
 
+//    @Transactional
+//    public static Result addDica(){
+//        DynamicForm requestData = Form.form().bindFromRequest();
+//        String messagem = requestData.get("dica");
+//
+//    }
+
 }
