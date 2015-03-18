@@ -147,7 +147,10 @@ public class Dica {
         return dicaID;
     }
     public float getIndiceConcordancia() {
-        return votosPositivos / votos;
+        if (votos> 0){
+            return votosPositivos / votos;
+        }
+        return 0;
     }
 
     public void incrementaVotos(Voto voto) {
@@ -155,6 +158,21 @@ public class Dica {
             votosPositivos++;
         }
         votos++;
+    }
+
+    public void decrementaVotos(Voto voto) {
+        if (voto.getVoto() == 1){
+            votosPositivos--;
+        }
+        votos--;
+    }
+
+    public void trocaVotos(Voto voto) {
+        if (voto.getVoto() == 0){
+            votosPositivos--;
+        } else {
+            votosPositivos++;
+        }
     }
 
 }

@@ -40,8 +40,12 @@ public abstract class AbstractTest {
 
     private void iniciaInstancias() throws NoSuchAlgorithmException {
         Usuario usuario = new Usuario("teste@teste.com", "teste", "Teste");
+        Usuario usuario2 = new Usuario("teste2@teste.com", "teste", "Teste");
+        Usuario usuario3 = new Usuario("teste3@teste.com", "teste", "Teste");
         Tema tema = new Tema("Projeto");
         Portal.salvaUsuario(usuario);
+        Portal.salvaUsuario(usuario2);
+        Portal.salvaUsuario(usuario3);
         Portal.adicionaTema(tema);
     }
 }

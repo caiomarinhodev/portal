@@ -1,22 +1,41 @@
 package models;
 
+import javax.persistence.*;
+
 /**
  * Created by X on 14/03/2015.
  */
+@Entity
+@Table(name = "AVALIACAO")
 public class Avaliacao {
-    private Usuario usuario;
-    private Tema tema;
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long avaliacaoID;
+
+    @Column
+    private long usuario;
+
+    @Column
+    private long tema;
+
+    @Column
     private int valor;
 
+
     public Avaliacao(Usuario usuario, Tema tema){
-        this.usuario = usuario;
-        this.tema = tema;
+        this.usuario = usuario.getId();
+        this.tema = tema.getID();
     }
-    public Usuario getUsuario() {
+
+    public long getAvaliacaoID() {
+        return avaliacaoID;
+    }
+    public long getUsuario() {
         return usuario;
     }
 
-    public Tema getTema() {
+    public long getTema() {
         return tema;
     }
 

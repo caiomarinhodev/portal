@@ -6,6 +6,7 @@ import play.db.jpa.Transactional;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -34,8 +35,14 @@ public class Portal {
         return false;
     }
 
+    /**
+     * Método que recupera um usuário pelo seu ID.
+     *
+     * @param ID Id a ser procurado;
+     * @return Usuário, caso exista.
+     */
     @Transactional
-    public static Usuario recuperaUsuarioPorID(Long ID){
+    public static Usuario recuperaUsuarioPorID(Long ID) {
         Usuario u = dao.findByEntityId(Usuario.class, ID);
         return u;
     }
@@ -58,12 +65,13 @@ public class Portal {
 
     /**
      * Método que adiciona uma nova dica no BD.
+     *
      * @param dica dica a ser inserida
      * @return True se a dica foi adicionada, false cc.
      */
     @Transactional
     public static boolean adicionaDica(Dica dica) {
-        if (validaDica(dica)){
+        if (validaDica(dica)) {
             boolean operacao = dao.persist(dica);
             dao.flush();
             return operacao;
@@ -72,7 +80,9 @@ public class Portal {
     }
 
     /**
-     * @param dica
+     * Método que remove uma dica.
+     *
+     * @param dica Dica a ser removida
      */
     @Transactional
     public static void removerDica(Dica dica) {
@@ -81,7 +91,9 @@ public class Portal {
     }
 
     /**
-     * @param newDica
+     * Método que atualiza uma dica
+     *
+     * @param newDica Dica a ser atualizada.
      */
     @Transactional
     public static void atualizarDica(Dica newDica) {
@@ -91,6 +103,7 @@ public class Portal {
 
     /**
      * Recupera uma dica cadastrada pelo ID.
+     *
      * @param id parametro de busca.
      * @return Dica, caso exista.
      */
@@ -100,54 +113,124 @@ public class Portal {
     }
 
     /**
-     * @param avaliacao
-     * @return
+     * Método que adiciona uma avaliação no banco.
+     *
+     * @param avaliacao Avaliação a ser inserida.
+     * @return True caso for inserida, false cc.
      */
     @Transactional
     public static boolean adicionaAvaliacao(Avaliacao avaliacao) {
-        return false;
+
+        if (recuperaAvaliacao(avaliacao.getUsuario(), avaliacao.getTema()) == null) {
+            boolean operacao = dao.persist(avaliacao);
+            return operacao;
+        } else {
+            dao.merge(avaliacao);
+        }
+        dao.flush();
+        return true;
     }
 
     /**
-     * @param usuario
-     * @param tema
-     * @return
+     * Método que recupera a avaliação de um usuário em um tema.
+     *
+     * @param usuario Usuário que avaliou.
+     * @param tema    Tema avaliado.
+     * @return Avaliação do usuário no tema.
      */
     @Transactional
-    public static Avaliacao recuperaAvaliacao(Usuario usuario, Tema tema) {
+    public static Avaliacao recuperaAvaliacao(long usuario, long tema) {
+
+        List<Avaliacao> lista1 = dao.findByAttributeName(Avaliacao.class.getName(), "usuario", String.valueOf(usuario));
+        List<Avaliacao> lista2 = dao.findByAttributeName(Avaliacao.class.getName(), "tema", String.valueOf(tema));
+        lista1.retainAll(lista2);
+        if (lista1.size() > 0) {
+            return lista1.get(0);
+        }
         return null;
     }
 
     /**
-     * @return
+     * Metodo que recupera a média do valor de todas as avaliações.
+     *
+     * @return Média de todas as avaliações;
      */
     @Transactional
     public static float recuperaMediaDeAvaliacoes() {
-        return 0.0f;
+        List<Avaliacao> avaliacoes = dao.findAllByClassName(Avaliacao.class.getName());
+        float media = 0.0f;
+        for (int i = 0; i < avaliacoes.size(); i++) {
+            media += avaliacoes.get(i).getValor();
+        }
+
+        if (avaliacoes.size() > 0) {
+            media = media / avaliacoes.size();
+        }
+        return media;
     }
 
     /**
-     * @return
+     * Método que recupera a mediana das avaliações;
+     *
+     * @return Mediana dentre as avaliações.
      */
     @Transactional
     public static float recuperaMedianaDeAvaliacoes() {
-        return 0.0f;
+
+        List<Avaliacao> avaliacoes = dao.findAllByClassName(Avaliacao.class.getName());
+        avaliacoes.sort(new Comparator<Avaliacao>() {
+            @Override
+            public int compare(Avaliacao o1, Avaliacao o2) {
+                if (o1.getValor() >= o2.getValor()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+
+        float mediana = 0.0f;
+        int size = avaliacoes.size();
+        if (size > 0) {
+            mediana = avaliacoes.get(0).getValor();
+        }
+        if (size % 2 == 0) {
+            mediana = (avaliacoes.get(size / 2).getValor() + avaliacoes.get((size / 2) + 1).getValor()) / 2;
+        } else {
+            if (size > 1) {
+                mediana = avaliacoes.get(size / 2).getValor();
+            }
+        }
+        return mediana;
     }
 
     /**
      * Adiciona voto ao BD
+     *
      * @param voto voto a ser adicionado
      * @return True se o voto for adicionado ou atualizado com sucesso.
      */
     @Transactional
     public static boolean adicionaVoto(Voto voto) {
         boolean operacao = false;
-        if (validaVoto(voto)){
-            if (recuperaVotoPorUsuarioETema(voto.getUsuario(), voto.getDica()) == null ){
+        if (validaVoto(voto)) {
+            Voto votoBD = recuperaVotoPorUsuarioEmDica(voto.getUsuario(), voto.getDica());
+            Dica dicaBD = recuperaDica(voto.getDica());
+            if (votoBD == null) {
                 operacao = dao.persist(voto);
+                dicaBD.incrementaVotos(voto);
+                dao.merge(dicaBD);
                 return operacao;
             } else {
-                dao.merge(voto);
+                if (votoBD.getVoto() == voto.getVoto()) {
+                    dao.remove(votoBD);
+                    dicaBD.decrementaVotos(voto);
+                    dao.merge(dicaBD);
+                } else {
+                    dao.merge(voto);
+                    dicaBD.trocaVotos(voto);
+                    dao.merge(dicaBD);
+                }
                 operacao = true;
             }
             dao.flush();
@@ -155,7 +238,14 @@ public class Portal {
         return operacao;
     }
 
-    public static Voto recuperaVotoPorUsuarioETema(String email, long dicaID){
+    /**
+     * Método que recupera voto de usuário em uma dica.
+     *
+     * @param email  Usuário que votou.
+     * @param dicaID Id da dica.
+     * @return Voto do usuário.
+     */
+    public static Voto recuperaVotoPorUsuarioEmDica(String email, long dicaID) {
         List<Voto> votos1 = dao.findByAttributeName(Voto.class.getName(), "usuario", email);
         List<Voto> votos2 = dao.findByAttributeName(Voto.class.getName(), "dica", String.valueOf(dicaID));
         votos1.retainAll(votos2);
@@ -167,8 +257,14 @@ public class Portal {
 
     }
 
+    /**
+     * Método que valida um voto.
+     *
+     * @param voto Voto a ser validado.
+     * @return True se for válida, false cc.
+     */
     private static boolean validaVoto(Voto voto) {
-        if (recuperaUsuario(voto.getUsuario())!= null && recuperaDica(voto.getDica()) != null){
+        if (recuperaUsuario(voto.getUsuario()) != null && recuperaDica(voto.getDica()) != null) {
             return true;
         }
         return false;
@@ -286,6 +382,33 @@ public class Portal {
             dao.persist(tema);
             dao.flush();
         }
+    }
+
+    /**
+     * Método queretorna uma sString contendo o conteúdo de uma dica.
+     *
+     * @param dicaID Dica de onde será retornado o conteúdo.
+     * @return String contendo os atributos passados na dica.
+     */
+    public static String recuperaConteudoDeUmaDica(long dicaID) {
+
+        Dica dica = dao.findByEntityId(Dica.class, dicaID);
+        String conteudo = "";
+        if (dica != null) {
+            if (dica.getConhecimento() != "") {
+                conteudo = "Conhecimento: " + dica.getConhecimento();
+            }
+            if (dica.getPreRequisito() != "") {
+                conteudo = "Pré-requisito: " + dica.getPreRequisito() + " Razão: " + dica.getRazao();
+            }
+            if (dica.getMaterial() != "") {
+                conteudo = "Material: " + dica.getMaterial();
+            }
+            if (dica.getConselho() != "") {
+                conteudo = "Conselho: " + dica.getConselho();
+            }
+        }
+        return conteudo;
     }
 
     /**
