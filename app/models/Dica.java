@@ -175,4 +175,17 @@ public class Dica {
         }
     }
 
+    public String getConteudo(){
+        if (!getConhecimento().equals("")){
+            return getConhecimento();
+        }else if(!getPreRequisito().equals("")){
+            return getPreRequisito();
+        }else if(!getConselho().equals("")){
+            return getConselho();
+        }else if(!getMaterial().equals("")){
+            return getMaterial();
+        }
+        return "";
+    }
+
 }
