@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Dica;
 import models.Disciplina;
 import models.Tema;
 import models.Usuario;
@@ -12,6 +13,7 @@ import views.html.dashboard;
 import views.html.dashboardMenu;
 import views.html.dashboardTimeline;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -64,11 +66,30 @@ public class AppController extends Controller {
         }
     }
 
-//    @Transactional
-//    public static Result addDica(){
-//        DynamicForm requestData = Form.form().bindFromRequest();
-//        String messagem = requestData.get("dica");
-//
-//    }
+    @Transactional
+    public static Result addDica(){
+        DynamicForm requestData = Form.form().bindFromRequest();
+        String messagem = requestData.get("dica");
+        String tipo = requestData.get("tipo");
+        String conselho, conhecimento, material;
+        conselho = "conselho";
+        conhecimento = "conhecimento";
+        material = "material";
+
+        Dica dica = new Dica(u,new Date(),t);
+
+        if(tipo.toLowerCase().equals(conselho)){
+            dica.setConselho(messagem);
+        }else if(tipo.toLowerCase().equals(conhecimento)){
+            dica.setConhecimento(messagem);
+        }else if(tipo.toLowerCase().equals(material)){
+            dica.setMaterial(messagem);
+        }else{
+            dica.setPreRequisito(messagem);
+        }
+        Portal.adicionaDica(dica);
+        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d, t, Portal.recuperaDicasPorTema(t.getID())));
+
+    }
 
 }
