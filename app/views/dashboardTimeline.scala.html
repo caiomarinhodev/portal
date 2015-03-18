@@ -181,21 +181,23 @@
 
                         </div><!-- /.chat -->
                         <div class="box-footer">
-                            <div class="form-group">
-                                <label>Adicione uma Dica:</label>
-                                <select name="tipo" class="form-control">
-                                    <option>CONSELHO</option>
-                                    <option>CONHECIMENTO</option>
-                                    <option>MATERIAL</option>
-                                    <option>PRÉ-REQUISITO</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <input name="dica" class="form-control" placeholder="Minha dica é..."/>
-                                <div class="input-group-btn">
-                                    <button class="btn btn-success"><i class="fa fa-plus"></i></button>
+                            <form action="/app/disciplina/tema/add" method="post">
+                                <div class="form-group">
+                                    <label>Adicione uma Dica:</label>
+                                    <select name="tipo" class="form-control">
+                                        <option>CONSELHO</option>
+                                        <option>CONHECIMENTO</option>
+                                        <option>MATERIAL</option>
+                                        <option>PRÉ-REQUISITO</option>
+                                    </select>
                                 </div>
-                            </div>
+                                <div class="input-group">
+                                    <input name="dica" class="form-control" placeholder="Minha dica é..."/>
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div><!-- /.box (chat box) -->
                     </section>

@@ -178,16 +178,16 @@ public class Portal {
     public static float recuperaMedianaDeAvaliacoes() {
 
         List<Avaliacao> avaliacoes = dao.findAllByClassName(Avaliacao.class.getName());
-        avaliacoes.sort(new Comparator<Avaliacao>() {
-            @Override
-            public int compare(Avaliacao o1, Avaliacao o2) {
-                if (o1.getValor() >= o2.getValor()) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-        });
+//        avaliacoes.sort(new Comparator<Avaliacao>() {
+//            @Override
+//            public int compare(Avaliacao o1, Avaliacao o2) {
+//                if (o1.getValor() >= o2.getValor()) {
+//                    return 1;
+//                } else {
+//                    return -1;
+//                }
+//            }
+//        });
 
         float mediana = 0.0f;
         int size = avaliacoes.size();
