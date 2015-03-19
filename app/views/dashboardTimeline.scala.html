@@ -171,12 +171,12 @@
                                     <div class="item">
                                         <img src="" alt="user image" class="online"/>
                                         <p class="message">
-                                            <a href="#" class="name">
+                                            <a href="" class="name">
                                                 <small class="text-muted pull-right"><i class="fa fa-clock-o"></i>@dica.getData.toLocaleString</small>
                                                     @Portal.recuperaUsuarioPorID(dica.getAutorID).getNome
                                             </a>
-                                            <small class="btn btn-default pull-right"><i class="fa fa-thumbs-down"></i></small>
-                                            <small class="btn btn-default pull-right"><i class="fa fa-thumbs-up"></i></small>
+                                            <a href=""><small class="btn btn-default pull-right"><i class="fa fa-thumbs-down">&nbsp@dica.getVotosPositivos</i></small></a>
+                                            <a href=""><small class="btn btn-default pull-right"><i class="fa fa-thumbs-up">&nbsp@dica.getDenuncias</i></small></a>
                                             @dica.getConteudo
                                         </p>
                                     </div><!-- /.item -->
