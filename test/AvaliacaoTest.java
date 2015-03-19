@@ -67,6 +67,6 @@ public class AvaliacaoTest extends AbstractTest{
         avaliacao.setValor(1);
         Portal.adicionaAvaliacao(avaliacao);
 
-       // Assert.assertTrue(Portal.recuperaMedianaDeAvaliacoes() == 1.0f);
+        Assert.assertTrue(Portal.recuperaMedianaDeAvaliacoes() == 1.0f);
     }
 }

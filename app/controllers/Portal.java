@@ -178,16 +178,16 @@ public class Portal {
     public static float recuperaMedianaDeAvaliacoes() {
 
         List<Avaliacao> avaliacoes = dao.findAllByClassName(Avaliacao.class.getName());
-//        avaliacoes.sort(new Comparator<Avaliacao>() {
-//            @Override
-//            public int compare(Avaliacao o1, Avaliacao o2) {
-//                if (o1.getValor() >= o2.getValor()) {
-//                    return 1;
-//                } else {
-//                    return -1;
-//                }
-//            }
-//        });
+        avaliacoes.sort(new Comparator<Avaliacao>() {
+            @Override
+            public int compare(Avaliacao o1, Avaliacao o2) {
+                if (o1.getValor() >= o2.getValor()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
 
         float mediana = 0.0f;
         int size = avaliacoes.size();
@@ -293,6 +293,7 @@ public class Portal {
      */
     @Transactional
     public static void denunciaDica(Dica dica) {
+
     }
 
     /**
@@ -396,16 +397,16 @@ public class Portal {
         String conteudo = "";
         if (dica != null) {
             if (dica.getConhecimento() != "") {
-                conteudo = "Conhecimento: " + dica.getConhecimento();
+                conteudo = "#Conhecimento: " + dica.getConhecimento();
             }
             if (dica.getPreRequisito() != "") {
-                conteudo = "Pré-requisito: " + dica.getPreRequisito() + " Razão: " + dica.getRazao();
+                conteudo = "#Pré-requisito: " + dica.getPreRequisito() + " #Razão: " + dica.getRazao();
             }
             if (dica.getMaterial() != "") {
-                conteudo = "Material: " + dica.getMaterial();
+                conteudo = "#Material: " + dica.getMaterial();
             }
             if (dica.getConselho() != "") {
-                conteudo = "Conselho: " + dica.getConselho();
+                conteudo = "#Conselho: " + dica.getConselho();
             }
         }
         return conteudo;
