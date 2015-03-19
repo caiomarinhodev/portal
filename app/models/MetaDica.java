@@ -1,4 +1,5 @@
 package models;
+import javax.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,14 +7,30 @@ import java.util.Date;
 /**
  * Created by X on 14/03/2015.
  */
+@Entity
+@Table(name = "METADICA")
 public class MetaDica {
-    private Usuario autor;
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long metaDicaID;
+
+    @Column
+    private long autor;
+
+    @Column
     private Date data;
-    private Disciplina disciplina;
+
+    @Column
+    private long disciplina;
+
+    @OneToMany
     List<Dica> dicas = new ArrayList<Dica>();
+
+    @Column
     private int votos;
 
-    public Disciplina getDisciplina() {
+    public long getDisciplina() {
         return disciplina;
     }
 
@@ -22,11 +39,15 @@ public class MetaDica {
     }
 
     public MetaDica (Usuario autor, Disciplina disciplina){
-        this.autor = autor;
-        this.disciplina = disciplina;
+        this.autor = autor.getId();
+        this.disciplina = disciplina.getIdDisciplina();
     }
 
-    public Usuario getAutor() {
+    public long getMetaDicaID() {
+        return metaDicaID;
+    }
+
+    public long getAutor() {
         return autor;
     }
 

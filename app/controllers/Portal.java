@@ -6,6 +6,7 @@ import play.db.jpa.Transactional;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -91,14 +92,33 @@ public class Portal {
     }
 
     /**
-     * Método que atualiza uma dica
+     * Método que adiciona uma disciplina.
      *
-     * @param newDica Dica a ser atualizada.
+     * @param disciplina Disciplina a ser adiconada.
+     * @return True se a disciplina for adicionada, false cc.
      */
     @Transactional
-    public static void atualizarDica(Dica newDica) {
-        dao.merge(newDica);
-        dao.flush();
+    public static boolean adicionaDisciplina(Disciplina disciplina) {
+        boolean operacao = false;
+        if (recuperaDisciplinaPeloNome(disciplina.getNome()) == null) {
+            operacao = dao.persist(disciplina);
+            dao.flush();
+        }
+        return operacao;
+    }
+
+    /**
+     * Método que recupera uma disciplina do banco pelo nome.
+     *
+     * @param nome Nome a ser procurado.
+     * @return Disciplina, caso exista.
+     */
+    public static Disciplina recuperaDisciplinaPeloNome(String nome) {
+        List<Disciplina> disciplinaBD = dao.findByAttributeName(Disciplina.class.getName(), "nome", nome);
+        if (disciplinaBD.size() > 0) {
+            return disciplinaBD.get(0);
+        }
+        return null;
     }
 
     /**
@@ -178,7 +198,7 @@ public class Portal {
     public static float recuperaMedianaDeAvaliacoes() {
 
         List<Avaliacao> avaliacoes = dao.findAllByClassName(Avaliacao.class.getName());
-        avaliacoes.sort(new Comparator<Avaliacao>() {
+        Collections.sort(avaliacoes, new Comparator<Avaliacao>() {
             @Override
             public int compare(Avaliacao o1, Avaliacao o2) {
                 if (o1.getValor() >= o2.getValor()) {
@@ -248,6 +268,7 @@ public class Portal {
      * @param dicaID Id da dica.
      * @return Voto do usuário.
      */
+    @Transactional
     public static Voto recuperaVotoPorUsuarioEmDica(String email, long dicaID) {
         List<Voto> votos1 = dao.findByAttributeName(Voto.class.getName(), "usuario", email);
         List<Voto> votos2 = dao.findByAttributeName(Voto.class.getName(), "dica", String.valueOf(dicaID));
@@ -274,20 +295,30 @@ public class Portal {
     }
 
     /**
-     * @param dica
-     * @return
+     * Método que adiciona uma meta dica.
+     *
+     * @param dica Meta dica a ser adicionada
+     * @return True se for adicionada, false cc.
      */
     @Transactional
     public static boolean adicionaMetaDica(MetaDica dica) {
-        return false;
+        boolean operacao = dao.persist(dica);
+        dao.flush();
+        return operacao;
     }
 
     /**
-     * @param disciplina
-     * @return
+     * Método que recupera a lista de meta dicas por disciplina
+     *
+     * @param disciplina Disciplina das meta dicas
+     * @return Meta dicas casos existam.
      */
     @Transactional
     public static List<MetaDica> recuperaMetaDicasPorDisciplina(Disciplina disciplina) {
+        List<MetaDica> metas = dao.findByAttributeName(MetaDica.class.getName(), "disciplina", String.valueOf(disciplina.getIdDisciplina()));
+        if (metas.size() > 0) {
+            return metas;
+        }
         return null;
     }
 
@@ -301,7 +332,7 @@ public class Portal {
         Dica dica = recuperaDica(dicaID);
         if (dica != null) {
             dica.incrementaDenuncias();
-            if (dica.getDenuncias() > 2){
+            if (dica.getDenuncias() > 2) {
                 removerDica(dica);
             } else {
                 dao.merge(dica);
@@ -335,7 +366,7 @@ public class Portal {
     @Transactional
     public static List<Dica> recuperaDicasPorTemaEUsuario(Long idUser, Long idTema) {
         List<Dica> ld = dao.findByAttributeName(Dica.class.getName(), "temaID", String.valueOf(idTema));
-        List<Dica> us =  dao.findByAttributeName(Dica.class.getName(), "autorID", String.valueOf(idUser));
+        List<Dica> us = dao.findByAttributeName(Dica.class.getName(), "autorID", String.valueOf(idUser));
         ld.retainAll(us);
         if (ld != null) {
             return ld;
@@ -423,6 +454,7 @@ public class Portal {
      * @param dicaID Dica de onde será retornado o conteúdo.
      * @return String contendo os atributos passados na dica.
      */
+    @Transactional
     public static String recuperaConteudoDeUmaDica(long dicaID) {
 
         Dica dica = dao.findByEntityId(Dica.class, dicaID);

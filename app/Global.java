@@ -1,13 +1,11 @@
 import controllers.Portal;
 import models.*;
-import org.joda.time.DateTime;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 import play.db.jpa.JPA;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -51,7 +49,7 @@ public class Global extends GlobalSettings {
                     li.add(t10);
                     li.add(t11);
                     li.add(t12);
-                    Disciplina disciplina = new Disciplina("SI1",li);
+                    Disciplina disciplina = new Disciplina("SI1", li);
 
                     Portal.salvaUsuario(u);
                     Portal.adicionaTema(t1);
@@ -66,15 +64,10 @@ public class Global extends GlobalSettings {
                     Portal.adicionaTema(t10);
                     Portal.adicionaTema(t11);
                     Portal.adicionaTema(t12);
-
-                    dao.persist(disciplina);
-
+                    Portal.adicionaDisciplina(disciplina);
 
                     Logger.info("Inserindo dados no BD.");
-                    dao.flush();
                 }
-
-
             }
         });
     }

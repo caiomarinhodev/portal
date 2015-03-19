@@ -24,16 +24,12 @@ public class Disciplina {
         this.temas = listaDeTemas;
     }
 
-    public Disciplina(){
+    public Disciplina() {
 
     }
 
     public long getIdDisciplina() {
         return idDisciplina;
-    }
-
-    public void setIdDisciplina(long idDisciplina) {
-        this.idDisciplina = idDisciplina;
     }
 
     public String getNome() {
@@ -46,9 +42,5 @@ public class Disciplina {
 
     public List<Tema> getTemas() {
         return temas;
-    }
-
-    public void setTemas(List<Tema> temas) {
-        this.temas = temas;
     }
 }

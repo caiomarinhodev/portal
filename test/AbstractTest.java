@@ -1,7 +1,7 @@
-import javax.persistence.EntityManager;
-
 import controllers.Portal;
-import models.*;
+import models.Disciplina;
+import models.Tema;
+import models.Usuario;
 import org.junit.After;
 import org.junit.Before;
 import play.GlobalSettings;
@@ -11,7 +11,11 @@ import play.test.FakeApplication;
 import play.test.Helpers;
 import scala.Option;
 
+import javax.persistence.EntityManager;
+import javax.sound.sampled.Port;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by X on 17/03/2015.
@@ -47,5 +51,9 @@ public abstract class AbstractTest {
         Portal.salvaUsuario(usuario2);
         Portal.salvaUsuario(usuario3);
         Portal.adicionaTema(tema);
+        List<Tema> temas = new ArrayList<Tema>();
+        temas.add(Portal.recuperaTemaPeloNome("Projeto"));
+        Disciplina disciplina = new Disciplina("SI1Test",temas);
+        Portal.adicionaDisciplina(disciplina);
     }
 }
