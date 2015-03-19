@@ -1,5 +1,6 @@
 package models;
 
+import controllers.Portal;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -55,7 +56,7 @@ public class Dica {
     @Column
     private boolean aberto;
 
-    public Dica(){
+    public Dica() {
 
     }
 
@@ -70,7 +71,7 @@ public class Dica {
         temaID = tema.getID();
 
         votos = 0;
-        votosPositivos= 0;
+        votosPositivos = 0;
         denuncias = 0;
         aberto = true;
     }
@@ -146,35 +147,42 @@ public class Dica {
     public long getDicaID() {
         return dicaID;
     }
+
     public float getIndiceConcordancia() {
-        if (votos> 0){
+        if (votos > 0) {
             return votosPositivos / votos;
         }
         return 0;
     }
 
     public void incrementaVotos(Voto voto) {
-        if (voto.getVoto() == 1){
-            votosPositivos++;
+        if (isAberto()) {
+            if (voto.getVoto() == 1) {
+                votosPositivos++;
+                if (getVotosPositivos() == 20){
+                    aberto = false;
+                }
+            }
+            votos++;
         }
-        votos++;
     }
 
     public void decrementaVotos(Voto voto) {
-        if (voto.getVoto() == 1){
+        if (voto.getVoto() == 1) {
             votosPositivos--;
         }
         votos--;
     }
 
     public void trocaVotos(Voto voto) {
-        if (voto.getVoto() == 0){
+        if (voto.getVoto() == 0) {
             votosPositivos--;
         } else {
             votosPositivos++;
         }
     }
 
-
-
+    public void incrementaDenuncias() {
+        denuncias++;
+    }
 }

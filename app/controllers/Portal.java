@@ -207,12 +207,15 @@ public class Portal {
     /**
      * Adiciona voto ao BD
      *
-     * @param voto voto a ser adicionado
+     * @param usuario Usuário que votou.
+     * @param dica    Dica que foi votada.
+     * @param valor   Valor do voto.
      * @return True se o voto for adicionado ou atualizado com sucesso.
      */
     @Transactional
-    public static boolean adicionaVoto(Voto voto) {
+    public static boolean adicionaVoto(Usuario usuario, Dica dica, int valor) {
         boolean operacao = false;
+        Voto voto = new Voto(usuario, dica, valor);
         if (validaVoto(voto)) {
             Voto votoBD = recuperaVotoPorUsuarioEmDica(voto.getUsuario(), voto.getDica());
             Dica dicaBD = recuperaDica(voto.getDica());
@@ -289,11 +292,22 @@ public class Portal {
     }
 
     /**
-     * @param dica
+     * Método que aumenta a quantidade de denuncias de uma dica.
+     *
+     * @param dicaID Dica a ser denunciada
      */
     @Transactional
-    public static void denunciaDica(Dica dica) {
-
+    public static void denunciaDica(long dicaID) {
+        Dica dica = recuperaDica(dicaID);
+        if (dica != null) {
+            dica.incrementaDenuncias();
+            if (dica.getDenuncias() > 2){
+                removerDica(dica);
+            } else {
+                dao.merge(dica);
+                dao.flush();
+            }
+        }
     }
 
     /**
@@ -305,6 +319,24 @@ public class Portal {
     @Transactional
     public static List<Dica> recuperaDicasPorTema(Long idTema) {
         List<Dica> ld = dao.findByAttributeName(Dica.class.getName(), "temaID", String.valueOf(idTema));
+        if (ld != null) {
+            return ld;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Metoo retorna uma lista de Dicas contidas em um determinado Tema.
+     *
+     * @param idTema id do tema de onde quer as dicas.
+     * @return uma List de Dicas do Tema.
+     */
+    @Transactional
+    public static List<Dica> recuperaDicasPorTemaEUsuario(Long idUser, Long idTema) {
+        List<Dica> ld = dao.findByAttributeName(Dica.class.getName(), "temaID", String.valueOf(idTema));
+        List<Dica> us =  dao.findByAttributeName(Dica.class.getName(), "autorID", String.valueOf(idUser));
+        ld.retainAll(us);
         if (ld != null) {
             return ld;
         } else {
