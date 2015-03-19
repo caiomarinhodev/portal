@@ -43,6 +43,13 @@ public class AppController extends Controller {
         return ok(dashboard.render(li, u));
     }
 
+    @Transactional
+    public static Result addVoto(Long idv){
+        Dica dica = Portal.recuperaDica(idv);
+        Portal.adicionaVoto(u,dica,1);
+        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d, t, Portal.recuperaDicasPorTema(t.getID())));
+    }
+
     /**
      * Metodo faz o controle de escolha do usuário para o Tema selecionado nos itens mostrados.
      *

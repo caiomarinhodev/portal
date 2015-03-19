@@ -18,15 +18,19 @@ public class Voto {
     private String usuario;
 
     @Column
-    private long dica;
+    private long idDica;
 
     @Column
     private int voto;
 
     public Voto (Usuario usuario, Dica dica, int voto){
         this.usuario = usuario.getEmail();
-        this.dica = dica.getDicaID();
+        this.idDica = dica.getDicaID();
         this.voto = voto;
+    }
+
+    public Voto(){
+        
     }
 
     public String getUsuario() {
@@ -37,8 +41,8 @@ public class Voto {
         return votoId;
     }
 
-    public long getDica() {
-        return dica;
+    public long getIdDica() {
+        return idDica;
     }
 
     public int getVoto() {

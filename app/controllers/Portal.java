@@ -237,8 +237,8 @@ public class Portal {
         boolean operacao = false;
         Voto voto = new Voto(usuario, dica, valor);
         if (validaVoto(voto)) {
-            Voto votoBD = recuperaVotoPorUsuarioEmDica(voto.getUsuario(), voto.getDica());
-            Dica dicaBD = recuperaDica(voto.getDica());
+            Voto votoBD = recuperaVotoPorUsuarioEmDica(voto.getUsuario(), voto.getIdDica());
+            Dica dicaBD = recuperaDica(voto.getIdDica());
             if (votoBD == null) {
                 operacao = dao.persist(voto);
                 dicaBD.incrementaVotos(voto);
@@ -271,7 +271,7 @@ public class Portal {
     @Transactional
     public static Voto recuperaVotoPorUsuarioEmDica(String email, long dicaID) {
         List<Voto> votos1 = dao.findByAttributeName(Voto.class.getName(), "usuario", email);
-        List<Voto> votos2 = dao.findByAttributeName(Voto.class.getName(), "dica", String.valueOf(dicaID));
+        List<Voto> votos2 = dao.findByAttributeName(Voto.class.getName(), "idDica", String.valueOf(dicaID));
         votos1.retainAll(votos2);
         if (votos1.size() > 0) {
             return votos1.get(0);
@@ -288,7 +288,7 @@ public class Portal {
      * @return True se for válida, false cc.
      */
     private static boolean validaVoto(Voto voto) {
-        if (recuperaUsuario(voto.getUsuario()) != null && recuperaDica(voto.getDica()) != null) {
+        if (recuperaUsuario(voto.getUsuario()) != null && recuperaDica(voto.getIdDica()) != null) {
             return true;
         }
         return false;
