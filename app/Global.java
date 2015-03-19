@@ -69,9 +69,7 @@ public class Global extends GlobalSettings {
 
                     dao.persist(disciplina);
 
-                    Dica dica = new Dica(u, new Date(), t1);
-                    dica.setConhecimento("Essa parte é muito importante. Estude muito!");
-                    Portal.adicionaDica(dica);
+
                     Logger.info("Inserindo dados no BD.");
                     dao.flush();
                 }
