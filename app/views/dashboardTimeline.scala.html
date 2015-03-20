@@ -251,32 +251,44 @@
                                                     </small>
                                                     @Portal.recuperaUsuarioPorID(dica.getAutorID).getNome
                                                 </a>
-                                                <a href="#" onclick="$('#replica').toggle(true)"><small class="btn btn-xs btn-default pull-right"><i class="fa fa-thumbs-down">&nbsp@(dica.getVotos-dica.getVotosPositivos)</i></small></a>
+                                                <a href="#" onclick="$('#replica-'+@dica.getDicaID).toggle(true)"><small class="btn btn-xs btn-default pull-right"><i class="fa fa-thumbs-down">&nbsp@(dica.getVotos-dica.getVotosPositivos)</i></small></a>
                                                 <a href="/app/voto/@dica.getDicaID"><small class="btn btn-xs btn-default pull-right"><i class="fa fa-thumbs-up">&nbsp@dica.getVotosPositivos</i></small></a>
 
                                                 @Portal.recuperaConteudoDeUmaDica(dica.getDicaID)
 
                                             </p>
-                                            <div id="replica" class="oculto attachment">
+                                            <small class="pull-right">Indice de Concordância: <button class="btn btn-xs btn-warning pull-right">@dica.getIndiceConcordancia</button>
+                                                </small>
+                                            <br/><br/>
+                                            <div id="replica-@dica.getDicaID" class="oculto attachment">
                                                 <div class="input-group">
-                                                    <input name="dica" class="form-control" placeholder="Minha discordância é..."/>
+                                                    <input name="dica" class="form-control" placeholder="Razao da discordancia..."/>
                                                     <div class="input-group-btn">
-                                                        <a href="/app/voto/decrementa/@dica.getDicaID" onclick="$('#replica').toggle(false)" class="btn btn-success">
+                                                        <a href="/app/voto/decrementa/@dica.getDicaID" onclick="$('#replica-'+@dica.getDicaID).toggle(false)" class="btn btn-success">
                                                             <i class="fa fa-plus"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="attachment">
                                                 <p class="filename">
-                                                    <div class="name pull-right">
+                                                    <a href="#" class="name pull-right">
                                                             NomeUsuario
-                                                    </div>
+                                                    </a>
                                                     Rapaz eu discordo dessa sua opiniao!
 
                                                 </p>
                                             </div>
                                             <br/>
-                                            <a href="#"><small class="btn btn-xs btn-danger"><i class="fa fa-ban">&nbspDenunciar</i></small></a>
+                                            @if(Portal.validaDenuncia(usuario.getId, dica.getDicaID)){
+                                                <form action="/app/disciplina/tema/denuncia" method="post">
+                                                    <input type="hidden" name="idusuario" value="@usuario.getId">
+                                                    <input type="hidden" name="iddica" value="@dica.getDicaID">
+                                                    <button type="submit" class="btn btn-xs btn-danger"><i class="fa fa-ban">&nbspDenunciar</i></button>
+                                                </form>
+                                            }else{
+                                                <small class="btn btn-xs btn-danger" disabled><i class="fa fa-ban">&nbspDenunciado</i></small>
+                                            }
+
 
                                         </div> <!-- /.item -->
                                     }

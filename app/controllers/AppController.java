@@ -92,6 +92,18 @@ public class AppController extends Controller {
     }
 
     @Transactional
+    public static Result denunciaDica(){
+        DynamicForm requestData = Form.form().bindFromRequest();
+        Long idUser = Long.parseLong(requestData.get("idusuario"));
+        Long idDica = Long.parseLong(requestData.get("iddica"));
+        if(Portal.denunciaDica(idUser, idDica)){
+            return escolhaTema(t.getID());
+        }else{
+            return redirect("#");
+        }
+    }
+
+    @Transactional
     public static Result addDica(){
         DynamicForm requestData = Form.form().bindFromRequest();
         String messagem = requestData.get("dica");

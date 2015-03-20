@@ -143,9 +143,11 @@ public class Portal {
 
         boolean operacao = true;
         if (recuperaAvaliacao(avaliacao.getUsuario(), avaliacao.getTema()) == null) {
-             operacao = dao.persist(avaliacao);
+            operacao = dao.persist(avaliacao);
         } else {
-            dao.merge(avaliacao);
+            Avaliacao avaliacaoBD = recuperaAvaliacao(avaliacao.getUsuario(), avaliacao.getTema());
+            avaliacaoBD.setValor(avaliacao.getValor());
+            dao.merge(avaliacaoBD);
         }
         dao.flush();
         return operacao;
@@ -214,7 +216,7 @@ public class Portal {
         if (size > 0) {
             mediana = avaliacoes.get(0).getValor();
             if (size % 2 == 0) {
-                mediana = (avaliacoes.get(size / 2).getValor() + avaliacoes.get((size / 2) + 1).getValor()) / 2;
+                mediana = (avaliacoes.get((size -1) / 2).getValor() + avaliacoes.get(((size -1 )/ 2) + 1).getValor()) / 2;
             } else {
                 if (size > 1) {
                     mediana = avaliacoes.get(size / 2).getValor();
@@ -391,10 +393,10 @@ public class Portal {
      * @param dicaID Dica a ser denunciada
      */
     @Transactional
-    public static void denunciaDica(long userID, long dicaID) {
+    public static boolean denunciaDica(long userID, long dicaID) {
 
         Denuncia denuncia = new Denuncia(userID, dicaID);
-        if (validaDenuncia(denuncia)) {
+        if (validaDenuncia(userID, dicaID)) {
             Dica dica = recuperaDica(dicaID);
             if (dica != null) {
                 dao.persist(denuncia);
@@ -405,19 +407,23 @@ public class Portal {
                     dao.merge(dica);
                 }
                 dao.flush();
+                return true;
             }
         }
+        return false;
     }
+
 
     /**
      * Método que verifica se um usuário so denunciou uma vez cada dica.
      *
-     * @param denuncia Denuncia a ser validada.
-     * @return True se o usuário puder denunciar a dica.
+     * @param userID id de um usuario.
+     * @param dicaID id da dica a verificar se foi denunciada uma vez pelo usuario.
+     * @return true se foi denunciada ou false se não.
      */
-    private static boolean validaDenuncia(Denuncia denuncia) {
-        List<Denuncia> denunciasUser = dao.findByAttributeName(Denuncia.class.getName(), "usuarioID", String.valueOf(denuncia.getUsuarioID()));
-        List<Denuncia> denunciasDica = dao.findByAttributeName(Denuncia.class.getName(), "denunciaID", String.valueOf(denuncia.getDenunciaID()));
+    public static boolean validaDenuncia(long userID, long dicaID) {
+        List<Denuncia> denunciasUser = dao.findByAttributeName(Denuncia.class.getName(), "usuarioID", String.valueOf(userID));
+        List<Denuncia> denunciasDica = dao.findByAttributeName(Denuncia.class.getName(), "dicaID", String.valueOf(dicaID));
         denunciasUser.retainAll(denunciasDica);
         if (denunciasUser.size() > 0) {
             return false;
