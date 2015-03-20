@@ -28,6 +28,10 @@ public class Application extends Controller {
         return ok(login.render(""));
     }
 
+    public static Result loginreturn(String err){
+        return ok(login.render(err));
+    }
+
     /**
      * This method render register page
      *

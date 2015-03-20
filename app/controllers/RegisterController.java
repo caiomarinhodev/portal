@@ -27,7 +27,7 @@ public class RegisterController extends Controller {
         senha = requestData.get("senha");
         Usuario u = new Usuario(email, senha, nome, "/assets/dist/img/avatar04.png");
         if (Portal.salvaUsuario(u)) {
-            return Application.login();
+            return Application.loginreturn("erro");
         }
         return Application.register();
     }

@@ -27,8 +27,10 @@
                 <a href="/"><b>Portal do Leite</b></a>
             </div><!-- /.login-logo -->
             <div class="login-box-body">
-                @if(title.equals("")) {
-                    <p class="login-box-msg ">Faça Login como membro</p>
+                @if(title.equals("erro")) {
+                   <script>
+                        window.alert("Usuário Cadastrado com sucesso!");
+                   </script>
                 } else {
                     <p class="login-box-msg ">@title</p>
                 }
