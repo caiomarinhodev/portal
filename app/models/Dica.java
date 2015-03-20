@@ -3,6 +3,7 @@ package models;
 import controllers.Portal;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class Dica {
     private long temaID;
 
     @OneToMany
-    private List<String> discordancias;
+    private List<Discordancia> discordancias = new ArrayList<>();
 
     @Column
     private int votos;
@@ -189,13 +190,11 @@ public class Dica {
         denuncias++;
     }
 
-    public List<String> getDiscordancias() {
+    public List<Discordancia> getDiscordancias() {
         return discordancias;
     }
 
-    public void adicionaDiscordancia(long usuarioID, String razao){
-        Usuario usuario = Portal.recuperaUsuarioPorID(usuarioID);
-        String discordancia = usuario.getNome() + "|" + razao;
+    public void adicionaDiscordancia(Discordancia discordancia){
         discordancias.add(discordancia);
     }
 }

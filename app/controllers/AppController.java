@@ -56,6 +56,17 @@ public class AppController extends Controller {
     }
 
     @Transactional
+    public static Result addDiscordanciaADica(){
+        DynamicForm requestData = Form.form().bindFromRequest();
+        Long idDica = Long.parseLong(requestData.get("iddadica"));
+        Long idUser = Long.parseLong(requestData.get("iduser"));
+        String razao = requestData.get("razao");
+
+        Portal.adicionaDiscordanciaEmUmaDica(idUser,idDica,razao);
+        return escolhaTema(t.getID());
+    }
+
+    @Transactional
     public static Result addAvaliacao(){
         DynamicForm requestData = Form.form().bindFromRequest();
         int aval = Integer.parseInt(requestData.get("avaliacao"));

@@ -311,7 +311,10 @@ public class Portal {
     @Transactional
     public static void adicionaDiscordanciaEmUmaDica(long userId, long dicaId, String discordancia) {
         Dica dica = recuperaDica(dicaId);
-        dica.adicionaDiscordancia(userId, discordancia);
+        Usuario user = recuperaUsuarioPorID(userId);
+        Discordancia discorde = new Discordancia(discordancia,user.getNome(),dicaId);
+        dao.persist(discorde);
+        dica.adicionaDiscordancia(discorde);
         dao.merge(dica);
         dao.flush();
     }
