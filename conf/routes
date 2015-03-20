@@ -3,23 +3,26 @@
 # ~~~~
 
 # Home page
-GET         /                               controllers.Application.index
-GET         /login                          controllers.Application.login
-GET         /register                       controllers.Application.register
-GET         /app                            controllers.LoginController.auth
-GET         /app/disciplina                 controllers.AppController.escolhaDisciplina
-GET         /app/disciplina/:id             controllers.AppController.escolhaTema(id: Long)
+GET         /                                 controllers.Application.index
+GET         /login                            controllers.Application.login
+GET         /register                         controllers.Application.register
+GET         /app                              controllers.LoginController.auth
+GET         /app/disciplina                   controllers.AppController.escolhaDisciplina
+GET         /app/disciplina/:id               controllers.AppController.escolhaTema(id: Long)
 
-GET         /app/voto/:idv                  controllers.AppController.addVoto(idv: Long)
+GET         /app/voto/:idv                    controllers.AppController.addVoto(idv: Long)
+GET         /app/voto/decrementa/:idvd        controllers.AppController.decrementaVoto(idvd: Long)
 
-GET         /signout                        controllers.Application.signout
-GET         /loginfb                        controllers.LoginController.logarComFacebook
-GET         /loginfbresponse                controllers.LoginController.logarComFace(code: String)
+GET         /signout                          controllers.Application.signout
+GET         /loginfb                          controllers.LoginController.logarComFacebook
+GET         /loginfbresponse                  controllers.LoginController.logarComFace(code: String)
 
-POST        /auth                           controllers.LoginController.auth
-POST        /signup                         controllers.RegisterController.cadastraUsuario
-POST        /app/disciplina/tema/add        controllers.AppController.addDica
+GET         /logingoo/:e/:n                controllers.LoginController.logarComGoogle(e: String, n: String)
+
+POST        /auth                             controllers.LoginController.auth
+POST        /signup                           controllers.RegisterController.cadastraUsuario
+POST        /app/disciplina/tema/add          controllers.AppController.addDica
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                   controllers.Assets.at(path="/public/assets/", file)
+GET         /assets/*file                     controllers.Assets.at(path="/public/assets/", file)
 

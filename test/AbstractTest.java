@@ -43,9 +43,9 @@ public abstract class AbstractTest {
     }
 
     private void iniciaInstancias() throws NoSuchAlgorithmException {
-        Usuario usuario = new Usuario("teste@teste.com", "teste", "Teste");
-        Usuario usuario2 = new Usuario("teste2@teste.com", "teste", "Teste");
-        Usuario usuario3 = new Usuario("teste3@teste.com", "teste", "Teste");
+        Usuario usuario = new Usuario("teste@teste.com", "teste", "Teste", "/assets/dist/img/avatar04.png");
+        Usuario usuario2 = new Usuario("teste2@teste.com", "teste", "Teste", "/assets/dist/img/avatar04.png");
+        Usuario usuario3 = new Usuario("teste3@teste.com", "teste", "Teste", "/assets/dist/img/avatar04.png");
         Tema tema = new Tema("Projeto");
         Portal.salvaUsuario(usuario);
         Portal.salvaUsuario(usuario2);

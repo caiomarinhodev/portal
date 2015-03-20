@@ -19,6 +19,7 @@ public class UsuarioFacebook {
     private String locale;
     private String name;
     private String updatedTime;
+    private String picture;
 
     public UsuarioFacebook(JsonNode jsonUsuario){
 
@@ -34,6 +35,7 @@ public class UsuarioFacebook {
         locale = jsonUsuario.findPath("locale").textValue();
         name = jsonUsuario.findPath("name").textValue();
         updatedTime = jsonUsuario.findPath("updated_time").textValue();
+        picture = jsonUsuario.findPath("").textValue();
     }
 
     public Long getId() {
@@ -62,6 +64,14 @@ public class UsuarioFacebook {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public void setEmail(String email) {

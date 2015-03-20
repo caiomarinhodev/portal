@@ -243,15 +243,15 @@ public class Portal {
                 operacao = dao.persist(voto);
                 dicaBD.incrementaVotos(voto);
                 dao.merge(dicaBD);
-                return operacao;
             } else {
                 if (votoBD.getVoto() == voto.getVoto()) {
                     dao.remove(votoBD);
                     dicaBD.decrementaVotos(voto);
                     dao.merge(dicaBD);
                 } else {
-                    dao.merge(voto);
                     dicaBD.trocaVotos(voto);
+                    votoBD.setVoto(voto.getVoto());
+                    dao.merge(votoBD);
                     dao.merge(dicaBD);
                 }
                 operacao = true;

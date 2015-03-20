@@ -16,16 +16,19 @@ public class Usuario {
     private String senha;
     @Column
     private String nome;
+    @Column
+    private String urlpic;
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Usuario(String email, String senha, String nome) {
+    public Usuario(String email, String senha, String nome, String picture) {
         this.email = email;
         this.nome = nome;
         this.senha = senha;
+        this.urlpic = picture;
     }
 
     public Usuario(){
@@ -46,6 +49,14 @@ public class Usuario {
 
     public String getSenha() {
         return senha;
+    }
+
+    public String getUrlpic() {
+        return urlpic;
+    }
+
+    public void setUrlpic(String urlpic) {
+        this.urlpic = urlpic;
     }
 
     public void setSenha(String senha) {

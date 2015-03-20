@@ -91,11 +91,31 @@ public class LoginController extends Controller {
         UsuarioFacebook ufb = loginFacebook.obterUsuarioFacebook(code);
         Usuario us = Portal.recuperaUsuario(ufb.getEmail());
         if(us==null){
-            us = new Usuario(ufb.getEmail(),"12345", ufb.getName());
+            us = new Usuario(ufb.getEmail(),"12345", ufb.getName(),ufb.getPicture());
             Portal.salvaUsuario(us);
         }
         if (us!=null) {
             session().clear();
+            session("email", us.getEmail());
+            return ok(dashboard.render(Portal.getListaDisciplinas(),us));
+        } else {
+            return ok(login.render(""));
+        }
+    }
+
+    @Transactional
+    public static Result logarComGoogle(String email, String nome) throws IOException, NoSuchAlgorithmException {
+        Logger.info("CODE:" + email);
+        //UsuarioFacebook ufb = loginFacebook.obterUsuarioFacebook(code);
+        Usuario us = Portal.recuperaUsuario(email);
+        if(us==null){
+
+            us = new Usuario(email,"12345", nome, "/assets/dist/img/avatar04.png");
+            Portal.salvaUsuario(us);
+        }
+        if (us!=null) {
+            session().clear();
+
             session("email", us.getEmail());
             return ok(dashboard.render(Portal.getListaDisciplinas(),us));
         } else {

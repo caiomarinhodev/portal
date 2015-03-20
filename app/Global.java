@@ -23,7 +23,7 @@ public class Global extends GlobalSettings {
 
                 List<Dica> lis = dao.findAllByClassName(Dica.class.getName());
                 if (lis.size() == 0) {
-                    Usuario u = new Usuario("teste@teste.com", "teste", "Teste");
+                    Usuario u = new Usuario("teste@teste.com", "teste", "Teste", "/assets/dist/img/avatar04.png");
                     Tema t1 = new Tema("Análise x Design");
                     Tema t2 = new Tema("Orientacao a Objetos");
                     Tema t3 = new Tema("GRASP");

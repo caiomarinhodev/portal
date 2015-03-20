@@ -33,6 +33,10 @@ public class Voto {
         
     }
 
+    public void setVoto(int voto) {
+        this.voto = voto;
+    }
+
     public String getUsuario() {
         return usuario;
     }

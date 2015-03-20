@@ -25,7 +25,7 @@ public class RegisterController extends Controller {
         email = requestData.get("email");
         nome = requestData.get("nome");
         senha = requestData.get("senha");
-        Usuario u = new Usuario(email, senha, nome);
+        Usuario u = new Usuario(email, senha, nome, "/assets/dist/img/avatar04.png");
         if (Portal.salvaUsuario(u)) {
             return Application.login();
         }
