@@ -213,14 +213,15 @@ public class Portal {
         int size = avaliacoes.size();
         if (size > 0) {
             mediana = avaliacoes.get(0).getValor();
-        }
-        if (size % 2 == 0) {
-            mediana = (avaliacoes.get(size / 2).getValor() + avaliacoes.get((size / 2) + 1).getValor()) / 2;
-        } else {
-            if (size > 1) {
-                mediana = avaliacoes.get(size / 2).getValor();
+            if (size % 2 == 0) {
+                mediana = (avaliacoes.get(size / 2).getValor() + avaliacoes.get((size / 2) + 1).getValor()) / 2;
+            } else {
+                if (size > 1) {
+                    mediana = avaliacoes.get(size / 2).getValor();
+                }
             }
         }
+
         return mediana;
     }
 
@@ -325,20 +326,42 @@ public class Portal {
     /**
      * Método que aumenta a quantidade de denuncias de uma dica.
      *
+     * @param userID Id do usuário que está denunciando.
      * @param dicaID Dica a ser denunciada
      */
     @Transactional
-    public static void denunciaDica(long dicaID) {
-        Dica dica = recuperaDica(dicaID);
-        if (dica != null) {
-            dica.incrementaDenuncias();
-            if (dica.getDenuncias() > 2) {
-                removerDica(dica);
-            } else {
-                dao.merge(dica);
+    public static void denunciaDica(long userID, long dicaID) {
+
+        Denuncia denuncia = new Denuncia(userID, dicaID);
+        if (validaDenuncia(denuncia)) {
+            Dica dica = recuperaDica(dicaID);
+            if (dica != null) {
+                dao.persist(denuncia);
+                dica.incrementaDenuncias();
+                if (dica.getDenuncias() > 2) {
+                    removerDica(dica);
+                } else {
+                    dao.merge(dica);
+                }
                 dao.flush();
             }
         }
+    }
+
+    /**
+     * Método que verifica se um usuário so denunciou uma vez cada dica.
+     *
+     * @param denuncia Denuncia a ser validada.
+     * @return True se o usuário puder denunciar a dica.
+     */
+    private static boolean validaDenuncia(Denuncia denuncia) {
+        List<Denuncia> denunciasUser = dao.findByAttributeName(Denuncia.class.getName(), "usuarioID", String.valueOf(denuncia.getUsuarioID()));
+        List<Denuncia> denunciasDica = dao.findByAttributeName(Denuncia.class.getName(), "denunciaID", String.valueOf(denuncia.getDenunciaID()));
+        denunciasUser.retainAll(denunciasDica);
+        if (denunciasUser.size() > 0) {
+            return false;
+        }
+        return true;
     }
 
     /**

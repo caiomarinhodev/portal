@@ -13,6 +13,8 @@ public class FlagsTest extends AbstractTest {
     @Test
     public void testDeveFecharUmaDicaPorDenuncia() {
         Usuario autor = Portal.recuperaUsuario("teste@teste.com");
+        Usuario autor2 = Portal.recuperaUsuario("teste2@teste.com");
+        Usuario autor3 = Portal.recuperaUsuario("teste3@teste.com");
         Tema tema = Portal.recuperaTemaPeloNome("Projeto");
         Dica dica = new Dica(autor, new Date(), tema);
         dica.setConhecimento("teste java");
@@ -20,9 +22,9 @@ public class FlagsTest extends AbstractTest {
         Assert.assertNotNull(Portal.recuperaDicasPorTemaEUsuario(autor.getId(), tema.getID()));
         List<Dica> dicas = Portal.recuperaDicasPorTemaEUsuario(autor.getId(), tema.getID());
         dica = dicas.get(0);
-        Portal.denunciaDica(dica.getDicaID());
-        Portal.denunciaDica(dica.getDicaID());
-        Portal.denunciaDica(dica.getDicaID());
+        Portal.denunciaDica(autor.getId(), dica.getDicaID());
+        Portal.denunciaDica(autor2.getId(), dica.getDicaID());
+        Portal.denunciaDica(autor3.getId(), dica.getDicaID());
         Assert.assertTrue(Portal.recuperaDicasPorTema(tema.getID()) == null ||
                 Portal.recuperaDicasPorTemaEUsuario(autor.getId(), tema.getID()).size() < dicas.size());
     }
