@@ -1,9 +1,7 @@
 package controllers;
 
-import models.Dica;
-import models.Disciplina;
-import models.Tema;
-import models.Usuario;
+import models.*;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -54,6 +52,19 @@ public class AppController extends Controller {
     public static Result decrementaVoto(Long idvd){
         Dica dica = Portal.recuperaDica(idvd);
         Portal.adicionaVoto(u,dica,0);
+        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d, t, Portal.recuperaDicasPorTema(t.getID())));
+    }
+
+    @Transactional
+    public static Result addAvaliacao(){
+        DynamicForm requestData = Form.form().bindFromRequest();
+        int aval = Integer.parseInt(requestData.get("avaliacao"));
+        Logger.info("AVAL: "+aval);
+        Avaliacao a = new Avaliacao(u, t);
+        a.setValor(aval);
+        if(Portal.adicionaAvaliacao(a)){
+            return escolhaTema(t.getID());
+        }
         return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d, t, Portal.recuperaDicasPorTema(t.getID())));
     }
 

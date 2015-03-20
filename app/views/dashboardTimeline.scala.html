@@ -17,6 +17,8 @@
          folder instead of downloading all of them to reduce the load. -->
         <link href="/assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
 
+        <link href="/assets/css/stylesheet.css" rel="stylesheet" type="text/css" />
+
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
             <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!--[if lt IE 9]>
@@ -158,7 +160,7 @@
                                 <!-- small box -->
                             <div class="small-box bg-aqua">
                                 <div class="inner">
-                                    <h3>150</h3>
+                                    <h3>@Portal.recuperaMediaDeAvaliacoes</h3>
                                     <p>Avaliação Média</p>
                                 </div>
                                 <div class="icon">
@@ -171,7 +173,7 @@
                                 <!-- small box -->
                             <div class="small-box bg-green">
                                 <div class="inner">
-                                    <h3>150</h3>
+                                    <h3>@Portal.recuperaMedianaDeAvaliacoes</h3>
                                     <p>Mediana</p>
                                 </div>
                                 <div class="icon">
@@ -202,17 +204,17 @@
                                             Avaliar
                                         </h3>
                                     </center>
-                                    <form action="#" method="post">
+                                    <form action="/app/disciplina/tema/aval" method="post">
                                         <div class="input-group input-group-sm">
                                             <select name="avaliacao" class="form-control">
-                                                <option>-2</option>
-                                                <option>-1</option>
-                                                <option>0</option>
-                                                <option>1</option>
-                                                <option>2</option>
+                                                <option value="-2">Muito Fácil</option>
+                                                <option value="-1">Fácil</option>
+                                                <option value="0">Normal</option>
+                                                <option value="1">Difícil</option>
+                                                <option value="2">Muito Difícil</option>
                                             </select>
                                             <span class="input-group-btn">
-                                                <button class="btn btn-info btn-flat" type="button">Ok!</button>
+                                                <button class="btn btn-info btn-flat" type="submit">Ok!</button>
                                             </span>
                                         </div>
                                     </form>
@@ -249,16 +251,25 @@
                                                     </small>
                                                     @Portal.recuperaUsuarioPorID(dica.getAutorID).getNome
                                                 </a>
-                                                <a href="/app/voto/decrementa/@dica.getDicaID"><small class="btn btn-xs btn-default pull-right"><i class="fa fa-thumbs-down">&nbsp@(dica.getVotos-dica.getVotosPositivos)</i></small></a>
+                                                <a href="#" onclick="$('#replica').toggle(true)"><small class="btn btn-xs btn-default pull-right"><i class="fa fa-thumbs-down">&nbsp@(dica.getVotos-dica.getVotosPositivos)</i></small></a>
                                                 <a href="/app/voto/@dica.getDicaID"><small class="btn btn-xs btn-default pull-right"><i class="fa fa-thumbs-up">&nbsp@dica.getVotosPositivos</i></small></a>
 
                                                 @Portal.recuperaConteudoDeUmaDica(dica.getDicaID)
 
                                             </p>
+                                            <div id="replica" class="oculto attachment">
+                                                <div class="input-group">
+                                                    <input name="dica" class="form-control" placeholder="Minha discordância é..."/>
+                                                    <div class="input-group-btn">
+                                                        <a href="/app/voto/decrementa/@dica.getDicaID" onclick="$('#replica').toggle(false)" class="btn btn-success">
+                                                            <i class="fa fa-plus"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="attachment">
                                                 <p class="filename">
                                                     <div class="name pull-right">
-                                                        Caio Marinho
+                                                            NomeUsuario
                                                     </div>
                                                     Rapaz eu discordo dessa sua opiniao!
 
