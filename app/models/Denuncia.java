@@ -25,6 +25,10 @@ public class Denuncia {
         dicaID = dica;
     }
 
+    public Denuncia() {
+
+    }
+
     public long getDenunciaID() {
         return denunciaID;
     }

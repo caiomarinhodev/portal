@@ -29,6 +29,12 @@ public class Voto {
         this.voto = voto;
     }
 
+    public Voto (Usuario usuario, MetaDica dica, int voto){
+        this.usuario = usuario.getEmail();
+        this.idDica = dica.getMetaDicaID();
+        this.voto = voto;
+    }
+
     public Voto(){
         
     }

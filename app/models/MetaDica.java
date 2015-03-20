@@ -30,6 +30,12 @@ public class MetaDica {
     @Column
     private int votos;
 
+    @Column
+    private int votosPositivos;
+
+    @Column
+    private boolean aberto;
+
     public long getDisciplina() {
         return disciplina;
     }
@@ -41,6 +47,10 @@ public class MetaDica {
     public MetaDica (Usuario autor, Disciplina disciplina){
         this.autor = autor.getId();
         this.disciplina = disciplina.getIdDisciplina();
+    }
+
+    public MetaDica() {
+
     }
 
     public long getMetaDicaID() {
@@ -61,5 +71,40 @@ public class MetaDica {
 
     public void addDica(Dica dica){
         dicas.add(dica);
+    }
+
+    public int getVotosPositivos() {
+        return votosPositivos;
+    }
+
+    public boolean isAberto() {
+        return aberto;
+    }
+
+    public void incrementaVotos(Voto voto) {
+        if (isAberto()) {
+            if (voto.getVoto() == 1) {
+                votosPositivos++;
+                if (getVotosPositivos() == 20){
+                    aberto = false;
+                }
+            }
+            votos++;
+        }
+    }
+
+    public void decrementaVotos(Voto voto) {
+        if (voto.getVoto() == 1) {
+            votosPositivos--;
+        }
+        votos--;
+    }
+
+    public void trocaVotos(Voto voto) {
+        if (voto.getVoto() == 0) {
+            votosPositivos--;
+        } else {
+            votosPositivos++;
+        }
     }
 }

@@ -28,6 +28,9 @@ public class Avaliacao {
         this.tema = tema.getID();
     }
 
+    public Avaliacao(){
+
+    }
     public long getAvaliacaoID() {
         return avaliacaoID;
     }

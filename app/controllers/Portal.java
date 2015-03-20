@@ -141,14 +141,14 @@ public class Portal {
     @Transactional
     public static boolean adicionaAvaliacao(Avaliacao avaliacao) {
 
+        boolean operacao = true;
         if (recuperaAvaliacao(avaliacao.getUsuario(), avaliacao.getTema()) == null) {
-            boolean operacao = dao.persist(avaliacao);
-            return operacao;
+             operacao = dao.persist(avaliacao);
         } else {
             dao.merge(avaliacao);
         }
         dao.flush();
-        return true;
+        return operacao;
     }
 
     /**
@@ -260,6 +260,67 @@ public class Portal {
             dao.flush();
         }
         return operacao;
+    }
+
+    /**
+     * Adiciona voto ao BD
+     *
+     * @param usuario  Usuário que votou.
+     * @param metaDica MetaDica que foi votada.
+     * @param valor    Valor do voto.
+     * @return True se o voto for adicionado ou atualizado com sucesso.
+     */
+    @Transactional
+    public static boolean adicionaVoto(Usuario usuario, MetaDica metaDica, int valor) {
+        boolean operacao = false;
+        Voto voto = new Voto(usuario, metaDica, valor);
+        if (validaMetaVoto(voto)) {
+            Voto votoBD = recuperaVotoPorUsuarioEmDica(voto.getUsuario(), voto.getIdDica());
+            MetaDica dicaBD = recuperaMetaDica(voto.getIdDica());
+            if (votoBD == null) {
+                operacao = dao.persist(voto);
+                dicaBD.incrementaVotos(voto);
+                dao.merge(dicaBD);
+            } else {
+                if (votoBD.getVoto() == voto.getVoto()) {
+                    dao.remove(votoBD);
+                    dicaBD.decrementaVotos(voto);
+                    dao.merge(dicaBD);
+                } else {
+                    dicaBD.trocaVotos(voto);
+                    votoBD.setVoto(voto.getVoto());
+                    dao.merge(votoBD);
+                    dao.merge(dicaBD);
+                }
+                operacao = true;
+            }
+            dao.flush();
+        }
+        return operacao;
+    }
+
+    /**
+     * Método que valida um voto em uma meta dica.
+     *
+     * @param voto Voto a ser validado.
+     * @return True se for válida, false cc.
+     */
+    private static boolean validaMetaVoto(Voto voto) {
+        if (recuperaUsuario(voto.getUsuario()) != null && recuperaMetaDica(voto.getIdDica()) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Método que recupera uma Meta dica pelo Id.
+     *
+     * @param idDica Dica a ser buscada.
+     * @return Meta dica, caso exista.
+     */
+    private static MetaDica recuperaMetaDica(long idDica) {
+        MetaDica dica = dao.findByEntityId(MetaDica.class, idDica);
+        return dica;
     }
 
     /**
