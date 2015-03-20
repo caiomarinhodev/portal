@@ -1,10 +1,10 @@
 package models;
 
 import controllers.Portal;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by X on 14/03/2015.
@@ -43,6 +43,9 @@ public class Dica {
 
     @Column
     private long temaID;
+
+    @OneToMany
+    private List<String> discordancias;
 
     @Column
     private int votos;
@@ -184,5 +187,15 @@ public class Dica {
 
     public void incrementaDenuncias() {
         denuncias++;
+    }
+
+    public List<String> getDiscordancias() {
+        return discordancias;
+    }
+
+    public void adicionaDiscordancia(long usuarioID, String razao){
+        Usuario usuario = Portal.recuperaUsuarioPorID(usuarioID);
+        String discordancia = usuario.getNome() + "|" + razao;
+        discordancias.add(discordancia);
     }
 }

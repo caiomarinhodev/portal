@@ -302,6 +302,21 @@ public class Portal {
     }
 
     /**
+     * Método que adiciona discordancia em uma dica.
+     *
+     * @param userId       Usuário que discordou.
+     * @param dicaId       Dica que foi discordada.
+     * @param discordancia Razão da discordancia.
+     */
+    @Transactional
+    public static void adicionaDiscordanciaEmUmaDica(long userId, long dicaId, String discordancia) {
+        Dica dica = recuperaDica(dicaId);
+        dica.adicionaDiscordancia(userId, discordancia);
+        dao.merge(dica);
+        dao.flush();
+    }
+
+    /**
      * Método que valida um voto em uma meta dica.
      *
      * @param voto Voto a ser validado.
