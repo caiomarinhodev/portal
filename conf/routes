@@ -25,6 +25,7 @@ POST        /app/disciplina/tema/add             controllers.AppController.addDi
 POST        /app/disciplina/tema/aval            controllers.AppController.addAvaliacao
 POST        /app/disciplina/tema/denuncia        controllers.AppController.denunciaDica
 POST        /app/disciplina/tema/discorde        controllers.AppController.addDiscordanciaADica
+POST        /app/disciplina/addmeta              controllers.AppController.addMeta
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                        controllers.Assets.at(path="/public/assets/", file)

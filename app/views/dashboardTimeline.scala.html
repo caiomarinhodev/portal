@@ -1,6 +1,6 @@
-@(temas: List[Tema], usuario: Usuario, disciplinas: List[Disciplina], disciplina: Disciplina, tema: Tema, dicas: List[Dica])
+@(temas: List[Tema], usuario: Usuario, disciplinas: List[Disciplina], disciplina: Disciplina, tema: Tema, dicas: List[Dica], metadicas: List[MetaDica])
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <head>
         <meta charset="UTF-8">
         <title>Portal | Dashboard</title>
@@ -159,25 +159,41 @@
                         <div class="col-md-3 col-sm-6 col-xs-12">
                                 <!-- small box -->
                             <div class="small-box bg-aqua">
+                                <div class="pull-right"> &nbsp&nbsp&nbsp</div>
+                                <div class=" pull-right">
+                                    <h6>-2.0 : Muito Facil</h6>
+                                    <h6>-1.0 : Fácil</h6>
+                                    <h6>0.0 : Normal</h6>
+                                    <h6>1.0 : Difícil</h6>
+                                    <h6>2.0 : Muito Difícil</h6>
+                                </div>
                                 <div class="inner">
                                     <h3>@Portal.recuperaMediaDeAvaliacoes</h3>
                                     <p>Avaliação Média</p>
+                                    <br/>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-stats-bars"></i>
-                                </div>
+
                             </div>
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
                                 <!-- small box -->
                             <div class="small-box bg-green">
+                                <div class="pull-right"> &nbsp&nbsp&nbsp</div>
+                                <div class=" pull-right">
+                                    <h6>-2.0 : Muito Facil</h6>
+                                    <h6>-1.0 : Fácil</h6>
+                                    <h6>0.0 : Normal</h6>
+                                    <h6>1.0 : Difícil</h6>
+                                    <h6>2.0 : Muito Difícil</h6>
+                                </div>
                                 <div class="inner">
                                     <h3>@Portal.recuperaMedianaDeAvaliacoes</h3>
                                     <p>Mediana</p>
+                                    <br/>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-pie-graph"></i>
+
                                 </div>
                             </div>
                         </div>
@@ -188,9 +204,9 @@
                                 <div class="inner">
                                     <h3>@dicas.size</h3>
                                     <p>Dicas</p>
+                                    <br/>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-bag"></i>
                                 </div>
                             </div>
                         </div>
@@ -216,8 +232,10 @@
                                             <span class="input-group-btn">
                                                 <button class="btn btn-info btn-flat" type="submit">Ok!</button>
                                             </span>
+
                                         </div>
                                     </form>
+                                    <br/>
                                 </div>
                             </div>
                         </div>
@@ -251,7 +269,7 @@
                                                     </small>
                                                     @Portal.recuperaUsuarioPorID(dica.getAutorID).getNome
                                                 </a>
-                                                <a href="#" onclick="$ ( '#replica-' + @dica.getDicaID ).toggle ( true )"><small class="btn btn-xs btn-default pull-right"><i class="fa fa-thumbs-down">&nbsp@(dica.getVotos - dica.getVotosPositivos)</i></small></a>
+                                                <a onclick="$ ( '#replica-' + @dica.getDicaID ).toggle ( true )"><small class="btn btn-xs btn-default pull-right"><i class="fa fa-thumbs-down">&nbsp@(dica.getVotos - dica.getVotosPositivos)</i></small></a>
                                                 <a href="/app/voto/@dica.getDicaID"><small class="btn btn-xs btn-default pull-right"><i class="fa fa-thumbs-up">&nbsp@dica.getVotosPositivos</i></small></a>
 
                                                 @Portal.recuperaConteudoDeUmaDica(dica.getDicaID)
@@ -267,7 +285,7 @@
                                                         <input type="hidden" name="iduser" value="@usuario.getId">
                                                         <input name="razao" class="form-control" placeholder="Razao da discordancia..."/>
                                                         <div class="input-group-btn">
-                                                            <button onclick="$ ( '#replica-' + @dica.getDicaID ).toggle ( false )" type="submit" class="btn btn-success">
+                                                            <button type="submit" class="btn btn-success">
                                                                 <i class="fa fa-plus"></i></button>
                                                         </div>
                                                     </div>
@@ -278,7 +296,7 @@
                                                     <div class="attachment">
                                                         <p class="filename">
                                                             <a href="#" class="name pull-right">
-                                                                @discordancia.getNomeAutor
+                                                            @discordancia.getNomeAutor
                                                             </a>
                                                             @discordancia.getRazao
 
@@ -286,8 +304,6 @@
                                                     </div>
                                                 }
                                             }
-
-                                            <br/>
                                             @if(Portal.validaDenuncia(usuario.getId, dica.getDicaID)) {
                                                 <form action="/app/disciplina/tema/denuncia" method="post">
                                                     <input type="hidden" name="idusuario" value="@usuario.getId">
@@ -339,32 +355,72 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="box-body chat" id="chat-box">
                                         <!-- chat item -->
+                                    @if(metadicas != null) {
+                                        @for(meta <- metadicas) {
+                                            <div class="item">
+                                                <img src="" class="offline"/>
+                                                <p class="message">
+                                                    <a href="#" class="name">
+                                                     titulo
+                                                    </a>
+                                                    desc
+                                                </p>
+                                                @if(meta.getDicas.size() > 0){
 
-                                        <!-- chat item -->
-                                    <div class="item">
-                                        <img src="" class="offline"/>
-                                        <p class="message">
-                                            <a href="#" class="name">
-                                                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i>
-                                                    5:15</small>
-                                                Alexander Pierce
-                                            </a>
-                                            I would like to meet you to discuss the latest news about
-                                            the arrival of the new theme. They say it is going to be one the
-                                            best themes on the market
-                                        </p>
-                                    </div> <!-- /.item -->
+                                                    @for(dic <- meta.getDicas) {
+                                                        <div class="attachment">
+                                                            <p class="filename">
 
+                                                            @Portal.recuperaConteudoDeUmaDica(dic.getDicaID)
+
+                                                            </p>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div> <!-- /.item -->
+                                        }
+                                    }
                                 </div> <!-- /.chat -->
                                 <div class="box-footer">
                                     <div class="input-group">
-                                        <input name="metadica" class="form-control" placeholder="Adicione uma Meta-Dica ..."/>
                                         <div class="input-group-btn">
-                                            <button class="btn btn-danger"><i class="fa fa-plus"></i></button>
+                                            <button class="btn btn-danger" onclick="$ ( '#addmeta' ).toggle ( )"><i class="fa fa-plus"></i></button>
                                         </div>
                                     </div>
+                                    <br/>
+
+                                    <form action="/app/disciplina/addmeta" method="post">
+                                        <div id="addmeta" class="oculto item">
+                                            <input name="titulo" class="form-control" placeholder="Adicione um comentario..."/>
+                                            <br/>
+                                                <!-- TO DO List -->
+                                            <div class="box box-primary">
+                                                <div class="box-header">
+                                                    <i class="ion ion-clipboard"></i>
+                                                    <h3 class="box-title">Dicas relacionadas:</h3>
+                                                </div><!-- /.box-header -->
+                                                <div class="box-body">
+                                                    <ul class="todo-list">
+                                                    @for(dica <- Portal.recuperaDicasPorTema(tema.getID)) {
+                                                        <li>
+                                                            <input type="checkbox" value="true" name="@dica.getDicaID"/>
+                                                            <span class="text">@Portal.recuperaConteudoDeUmaDica(dica.getDicaID)</span>
+                                                        </li>
+                                                    }
+
+                                                    </ul>
+                                                </div><!-- /.box-body -->
+                                                <div class="box-footer clearfix no-border">
+                                                    <button class="btn btn-default pull-right"><i class="fa fa-plus"></i>
+                                                        Adicionar</button>
+                                                </div>
+                                            </div><!-- /.box -->
+
+                                        </div>
+                                    </form>
                                 </div>
                             </div> <!-- /.box (chat box) -->
 

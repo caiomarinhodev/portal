@@ -45,14 +45,16 @@ public class AppController extends Controller {
     public static Result addVoto(Long idv){
         Dica dica = Portal.recuperaDica(idv);
         Portal.adicionaVoto(u,dica,1);
-        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d, t, Portal.recuperaDicasPorTema(t.getID())));
+        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(),
+                d, t, Portal.recuperaDicasPorTema(t.getID()), Portal.recuperaMetaDicasPorDisciplina(d)));
     }
 
     @Transactional
     public static Result decrementaVoto(Long idvd){
         Dica dica = Portal.recuperaDica(idvd);
         Portal.adicionaVoto(u,dica,0);
-        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d, t, Portal.recuperaDicasPorTema(t.getID())));
+        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d,
+                t, Portal.recuperaDicasPorTema(t.getID()), Portal.recuperaMetaDicasPorDisciplina(d)));
     }
 
     @Transactional
@@ -63,7 +65,7 @@ public class AppController extends Controller {
         String razao = requestData.get("razao");
 
         Portal.adicionaDiscordanciaEmUmaDica(idUser,idDica,razao);
-        return escolhaTema(t.getID());
+        return decrementaVoto(idDica);
     }
 
     @Transactional
@@ -76,7 +78,8 @@ public class AppController extends Controller {
         if(Portal.adicionaAvaliacao(a)){
             return escolhaTema(t.getID());
         }
-        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d, t, Portal.recuperaDicasPorTema(t.getID())));
+        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(),
+                d, t, Portal.recuperaDicasPorTema(t.getID()), Portal.recuperaMetaDicasPorDisciplina(d)));
     }
 
     /**
@@ -96,7 +99,8 @@ public class AppController extends Controller {
             }
         }
         if (t != null) {
-            return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d, t, Portal.recuperaDicasPorTema(id)));
+            return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(),
+                    d, t, Portal.recuperaDicasPorTema(id), Portal.recuperaMetaDicasPorDisciplina(d)));
         } else {
             return ok(dashboardMenu.render(d.getTemas(), u, Portal.getListaDisciplinas(), d));
         }
@@ -136,7 +140,25 @@ public class AppController extends Controller {
             dica.setPreRequisito(messagem);
         }
         Portal.adicionaDica(dica);
-        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d, t, Portal.recuperaDicasPorTema(t.getID())));
+        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d,
+                t, Portal.recuperaDicasPorTema(t.getID()), Portal.recuperaMetaDicasPorDisciplina(d)));
+
+    }
+
+    @Transactional
+    public static Result addMeta(){
+        DynamicForm requestData = Form.form().bindFromRequest();
+        //String titulo = requestData.get("titulo");
+        MetaDica md = new MetaDica(u,d);
+        for(Dica d: Portal.recuperaDicasPorTema(t.getID())){
+            if(requestData.get(String.valueOf(d.getDicaID()))!=null){
+                Logger.info("VAlue: " + requestData.get(String.valueOf(d.getDicaID())));
+                md.addDica(Portal.recuperaDica(d.getDicaID()));
+            }
+        }
+        Portal.adicionaMetaDica(md);
+        return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d,
+                t, Portal.recuperaDicasPorTema(t.getID()), Portal.recuperaMetaDicasPorDisciplina(d)));
 
     }
 
