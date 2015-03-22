@@ -133,6 +133,16 @@ public class Portal {
     }
 
     /**
+     * Recupera todas as dicas cadastradas.
+     *
+     * @return Lista de dicas , caso existam.
+     */
+    @Transactional
+    public static List<Dica> recuperaTodasAsDicas() {
+        return dao.findAllByClassName(Dica.class.getName());
+    }
+
+    /**
      * Método que adiciona uma avaliação no banco.
      *
      * @param avaliacao Avaliação a ser inserida.
@@ -178,8 +188,8 @@ public class Portal {
      * @return Média de todas as avaliações;
      */
     @Transactional
-    public static float recuperaMediaDeAvaliacoes() {
-        List<Avaliacao> avaliacoes = dao.findAllByClassName(Avaliacao.class.getName());
+    public static float recuperaMediaDeAvaliacoes(long temaID) {
+        List<Avaliacao> avaliacoes = dao.findByAttributeName(Avaliacao.class.getName(), "tema", String.valueOf(temaID));
         float media = 0.0f;
         for (int i = 0; i < avaliacoes.size(); i++) {
             media += avaliacoes.get(i).getValor();
@@ -197,9 +207,9 @@ public class Portal {
      * @return Mediana dentre as avaliações.
      */
     @Transactional
-    public static float recuperaMedianaDeAvaliacoes() {
+    public static float recuperaMedianaDeAvaliacoes(long temaID) {
 
-        List<Avaliacao> avaliacoes = dao.findAllByClassName(Avaliacao.class.getName());
+        List<Avaliacao> avaliacoes = dao.findByAttributeName(Avaliacao.class.getName(), "tema", String.valueOf(temaID));
         Collections.sort(avaliacoes, new Comparator<Avaliacao>() {
             @Override
             public int compare(Avaliacao o1, Avaliacao o2) {

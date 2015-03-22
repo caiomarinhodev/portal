@@ -168,7 +168,7 @@
                                     <h6>2.0 : Muito Difícil</h6>
                                 </div>
                                 <div class="inner">
-                                    <h3>@Portal.recuperaMediaDeAvaliacoes</h3>
+                                    <h3>@Portal.recuperaMediaDeAvaliacoes(tema.getID)</h3>
                                     <p>Avaliação Média</p>
                                     <br/>
                                 </div>
@@ -188,7 +188,7 @@
                                     <h6>2.0 : Muito Difícil</h6>
                                 </div>
                                 <div class="inner">
-                                    <h3>@Portal.recuperaMedianaDeAvaliacoes</h3>
+                                    <h3>@Portal.recuperaMedianaDeAvaliacoes(tema.getID)</h3>
                                     <p>Mediana</p>
                                     <br/>
                                 </div>
@@ -404,7 +404,7 @@
                                                 </div><!-- /.box-header -->
                                                 <div class="box-body">
                                                     <ul class="todo-list">
-                                                    @for(dica <- Portal.recuperaDicasPorTema(tema.getID)) {
+                                                    @for(dica <- Portal.recuperaTodasAsDicas()) {
                                                         <li>
                                                             <input type="checkbox" value="true" name="@dica.getDicaID"/>
                                                             <span class="text">@Portal.recuperaConteudoDeUmaDica(dica.getDicaID)</span>
