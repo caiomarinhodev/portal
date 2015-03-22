@@ -46,7 +46,7 @@ public class AvaliacaoTest extends AbstractTest{
         avaliacao.setValor(1);
         Portal.adicionaAvaliacao(avaliacao);
 
-        Assert.assertTrue(Portal.recuperaMediaDeAvaliacoes() == 1.5f);
+        Assert.assertTrue(Portal.recuperaMediaDeAvaliacoes(tema.getID()) == 1.5f);
     }
 
     @Test
@@ -67,6 +67,6 @@ public class AvaliacaoTest extends AbstractTest{
         avaliacao.setValor(1);
         Portal.adicionaAvaliacao(avaliacao);
 
-        Assert.assertTrue(Portal.recuperaMedianaDeAvaliacoes() == 1.0f);
+        Assert.assertTrue(Portal.recuperaMedianaDeAvaliacoes(tema.getID()) == 1.0f);
     }
 }

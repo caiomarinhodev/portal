@@ -166,6 +166,8 @@ public class Dica {
                 if (getVotosPositivos() == 20){
                     aberto = false;
                 }
+            } else if (getVotos() - getVotosPositivos() > 19){
+                aberto = false;
             }
             votos++;
         }
