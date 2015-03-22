@@ -16,6 +16,9 @@ public class MetaDica {
     private long metaDicaID;
 
     @Column
+    private String comentario;
+
+    @Column
     private long autor;
 
     @Column
@@ -44,13 +47,22 @@ public class MetaDica {
         return dicas;
     }
 
-    public MetaDica (Usuario autor, Disciplina disciplina){
+    public MetaDica (Usuario autor, Disciplina disciplina, String tit){
         this.autor = autor.getId();
+        this.comentario = tit;
         this.disciplina = disciplina.getIdDisciplina();
     }
 
     public MetaDica() {
 
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
     }
 
     public long getMetaDicaID() {

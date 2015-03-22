@@ -148,8 +148,8 @@ public class AppController extends Controller {
     @Transactional
     public static Result addMeta(){
         DynamicForm requestData = Form.form().bindFromRequest();
-        //String titulo = requestData.get("titulo");
-        MetaDica md = new MetaDica(u,d);
+        String titulo = requestData.get("titulo");
+        MetaDica md = new MetaDica(u,d,titulo);
         for(Dica d: Portal.recuperaDicasPorTema(t.getID())){
             if(requestData.get(String.valueOf(d.getDicaID()))!=null){
                 Logger.info("VAlue: " + requestData.get(String.valueOf(d.getDicaID())));

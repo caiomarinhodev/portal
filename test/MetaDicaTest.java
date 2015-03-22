@@ -18,7 +18,7 @@ public class MetaDicaTest extends AbstractTest{
         Dica dica = new Dica(autor, new Date(), tema);
         dica.setConselho("Estoutestando");
         Portal.adicionaDica(dica);
-        MetaDica meta = new MetaDica(autor, disciplina);
+        MetaDica meta = new MetaDica(autor, disciplina, "");
         meta.addDica(Portal.recuperaDicasPorTema(tema.getID()).get(0));
         Assert.assertTrue(Portal.adicionaMetaDica(meta));
     }
@@ -31,7 +31,7 @@ public class MetaDicaTest extends AbstractTest{
         Dica dica = new Dica(autor, new Date(), tema);
         dica.setConselho("Estoutestando");
         Portal.adicionaDica(dica);
-        MetaDica meta = new MetaDica(autor, disciplina);
+        MetaDica meta = new MetaDica(autor, disciplina, "");
         meta.addDica(Portal.recuperaDicasPorTema(tema.getID()).get(0));
         Portal.adicionaMetaDica(meta);
         Assert.assertNotNull(Portal.recuperaMetaDicasPorDisciplina(disciplina));
