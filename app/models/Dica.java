@@ -154,7 +154,7 @@ public class Dica {
 
     public float getIndiceConcordancia() {
         if (votos > 0) {
-            return votosPositivos / votos;
+            return ((float) votosPositivos) / ((float)votos);
         }
         return 0;
     }

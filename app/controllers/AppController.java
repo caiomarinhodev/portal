@@ -122,6 +122,7 @@ public class AppController extends Controller {
     public static Result addDica(){
         DynamicForm requestData = Form.form().bindFromRequest();
         String messagem = requestData.get("dica");
+        String razao = requestData.get("razao");
         String tipo = requestData.get("tipo");
         String conselho, conhecimento, material;
         conselho = "conselho";
@@ -138,6 +139,7 @@ public class AppController extends Controller {
             dica.setMaterial(messagem);
         }else{
             dica.setPreRequisito(messagem);
+            dica.setRazao(razao);
         }
         Portal.adicionaDica(dica);
         return ok(dashboardTimeline.render(d.getTemas(), u, Portal.getListaDisciplinas(), d,

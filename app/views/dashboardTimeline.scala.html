@@ -324,19 +324,26 @@
                                     <form action="/app/disciplina/tema/add" method="post">
                                         <div class="form-group">
                                             <label>Adicione uma Dica:</label>
-                                            <select name="tipo" class="form-control">
+                                            <select name="tipo" class="form-control" id="tipoDica" onchange="expandir();">
                                                 <option>CONSELHO</option>
                                                 <option>CONHECIMENTO</option>
                                                 <option>MATERIAL</option>
                                                 <option>PRÉ-REQUISITO</option>
                                             </select>
                                         </div>
-                                        <div class="input-group">
+                                        <div class="">
                                             <input name="dica" class="form-control" placeholder="Minha dica é..."/>
+                                            <div id="adiciona" class="input-group-btn">
+                                                <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                        <div id="pre" class="oculto input-group">
+                                            <input name="razao" class="oculto form-control" placeholder="O motivo é..."/>
                                             <div class="input-group-btn">
                                                 <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i></button>
                                             </div>
                                         </div>
+
                                     </form>
                                 </div>
                             </div> <!-- /.box (chat box) -->
@@ -475,6 +482,23 @@
             }
             // É possível desconectar com um clique no botão
             $('#revokeButton').click(disconnectUser);
+        </script>
+
+        <script>
+        function expandir() {
+            $(document ).ready(function(){
+            var tipo = $('#tipoDica' ).val();
+                console.log(tipo);
+            if (tipo == "PRÉ-REQUISITO"){
+                $('#pre' ).toggle(true);
+                $('#adiciona' ).toggle(false);
+            }else {
+                $('#pre' ).toggle(false);
+                $('#adiciona' ).toggle(true);
+            }
+            });
+        }
+
         </script>
 
     </body>
